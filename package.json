@@ -55,6 +55,10 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.0.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "semantic-release": "^24.0.0",
+    "@semantic-release/git": "^12.0.0",
+    "@semantic-release/npm": "^12.0.0",
+    "@semantic-release/github": "^10.0.0"
   }
 }

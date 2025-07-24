@@ -18,45 +18,63 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
-      packages: write # <--- ADDED: Permission to write to GitHub Packages
+      contents: write # <--- CHANGED: semantic-release needs write access to create tags and push changes
+      packages: write
+      issues: write # <--- ADDED: For semantic-release to create GitHub releases
+      pull-requests: write # <--- ADDED: For semantic-release to create GitHub releases
 
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # <--- ADDED: Fetch all history for semantic-release to analyze commits
+          fetch-depth: 0
 
       # Step 2: Set up Node.js environment
-      # Using Node.js 20 for consistency
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20' # Specify your desired Node.js version
-          # <--- ADDED: Configure npm registry for GitHub Packages
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@${{ github.repository_owner }}' # <--- ADDED: Your GitHub username/organization
+          # We'll configure the registry for semantic-release later, or it picks up from .npmrc
+          # registry-url: 'https://npm.pkg.github.com' # semantic-release handles this
+          # scope: '@${{ github.repository_owner }}' # semantic-release handles this
 
       # Step 3: Install project dependencies
-      # 'npm ci' is preferred for CI/CD environments as it uses package-lock.json
       - name: Install dependencies
         run: npm ci
 
       # Step 4: Build the component library
-      # Assumes you have a script named 'build:component' in your package.json
+      # This step must run BEFORE semantic-release to ensure the 'dist' folder is ready
       - name: Build component library
         run: npm run build:component
 
-      # Step 5: Configure npm for publishing (to GitHub Packages)
-      # Sets the authentication token for GitHub Packages registry
-      - name: Configure npm for publishing to GitHub Packages
-        run: npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
-        # Note: GITHUB_TOKEN is automatically provided by GitHub Actions and has 'packages:write' permission.
-        # No need for a separate NPM_TOKEN secret for GitHub Packages.
+      # Step 5: Configure Git for semantic-release
+      # This is crucial for semantic-release to commit and push tags
+      - name: Configure Git User
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # Step 6: Publish the component library to GitHub Packages
-      # This step will publish the package defined in your package.json
-      - name: Publish component library to GitHub Packages
-        run: npm publish
+      # Step 6: Run semantic-release to automate versioning and publishing
+      - name: Release and Publish to GitHub Packages
+        env:
+          # GITHUB_TOKEN is used by semantic-release for Git operations (tags, releases)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # NPM_TOKEN is used by semantic-release for npm publishing
+          # For GitHub Packages, this should be the GITHUB_TOKEN itself
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # <--- ADDED: Set the GitHub Packages registry URL for semantic-release
+          NPM_CONFIG_REGISTRY: 'https://npm.pkg.github.com/'
+        run: npx semantic-release
+        # <--- ADDED: semantic-release configuration for GitHub Packages
+        # This can also be in a .releaserc.json file at the root
+        # plugins:
+        #   - "@semantic-release/commit-analyzer"
+        #   - "@semantic-release/release-notes-generator"
+        #   - "@semantic-release/npm" # This plugin handles publishing to npm registry
+        #   - "@semantic-release/github" # This plugin handles creating GitHub releases and comments
+        #   - "@semantic-release/git" # This plugin handles committing package.json and pushing tags
 
   # Job to build Storybook and deploy it to GitHub Pages
   deploy-storybook:
@@ -65,10 +83,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    permissions: # <--- ADDED: Permissions for this job
+    permissions:
       contents: read
-      pages: write # <--- ADDED: Required for GitHub Pages deployment
-      id-token: write # <--- ADDED: Required for OIDC in GitHub Pages
+      pages: write
+      id-token: write
 
     steps:
       # Step 1: Checkout the repository code
@@ -95,13 +113,8 @@ jobs:
       - name: Deploy Storybook to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          # The GitHub token is automatically provided by GitHub Actions
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # The directory containing the built Storybook files
           publish_dir: ./storybook-static
-          # The branch to publish to (usually 'gh-pages' for GitHub Pages)
           publish_branch: gh-pages
-          # Keep existing files in the publish branch (optional, but good for incremental updates)
           keep_files: false
-          # Commit message for the deployment
           commit_message: "Deploy Storybook to GitHub Pages"
