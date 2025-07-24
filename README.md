@@ -48,8 +48,8 @@ To set up the AscendUCore Design System locally for development or to explore it
 3. Add Font Awesome CSS for Storybook (Crucial for Icon Component):  
    Create or open the file .storybook/preview-head.html and add the following line:
    ```HTML
-   \<\!-- .storybook/preview-head.html \--\>
-   \<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" /\>
+   <\!-- .storybook/preview-head.html \-->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    ```
 
 ## **⚙️ Available Commands**
@@ -99,13 +99,13 @@ To use the AscendUCore Design System components in your React application:
 
    function App() {
      return (
-       \<ThemeProvider theme={theme}\>
-         \<div\>
-           \<h1\>My Learning Platform\</h1\>
-           \<Button variant="primary"\>Start Course\</Button\>
-           {/\* Other components from AscendUCore UI Kit \*/}
-         \</div\>
-       \</ThemeProvider\>
+       <ThemeProvider theme={theme}>
+         <div>
+           <h1>My Learning Platform</h1>
+           <Button variant="primary">Start Course</Button>
+           {/* Other components from AscendUCore UI Kit */}
+         </div>
+       </ThemeProvider>
      );
    }
   export default App;
@@ -140,7 +140,6 @@ To use the AscendUCore Design System components in your React application:
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
-    \
   />
 </head>
 ```
