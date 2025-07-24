@@ -160,5 +160,4 @@ We welcome contributions to the AscendUCore Design System\! If you're interested
 
 ## **📄 License**
 
-This project is licensed under the MIT License.  
-(Note: You will need to create a LICENSE file in your repository if you haven't already.)
+This project is licensed under the MIT License.
