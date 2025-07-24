@@ -109,4 +109,5 @@ jobs:
           publish_dir: ./storybook-static
           publish_branch: gh-pages
           keep_files: false
+          cname: design.edupub.social
           commit_message: "Deploy Storybook to GitHub Pages"
