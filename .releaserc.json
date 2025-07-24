@@ -7,13 +7,13 @@
       "@semantic-release/npm",
       {
         "npmPublish": true,
-        "pkgRoot": "dist" // Tell semantic-release where your built package is
+        "pkgRoot": "dist"
       }
     ],
     [
       "@semantic-release/github",
       {
-        "assets": "dist/**/*", // Upload all built files to the GitHub release
+        "assets": "dist/**/*",
         "addReleases": "bottom"
       }
     ],
