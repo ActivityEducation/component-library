@@ -7,10 +7,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the TabGroup, Tab components and the theme from your UI Kit
-import { TabGroup } from '../system/components/Tab';
-import { Tab } from '../system/components/Tab';
-import { Card } from '../system/components/Card'; // Use Card to simulate tab content
-import { theme } from '../system/theme';
+import { TabGroup } from '..//components/Tab';
+import { Tab } from '..//components/Tab';
+import { Card } from '..//components/Card'; // Use Card to simulate tab content
+import { theme } from '..//theme';
 
 // Define the metadata for your TabGroup component story
 const meta: Meta<typeof TabGroup> = {

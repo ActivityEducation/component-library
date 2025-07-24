@@ -5,8 +5,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the VideoPlayer component and the theme
-import { VideoPlayer } from '../system/components/VideoPlayer';
-import { theme } from '../system/theme';
+import { VideoPlayer } from '..//components/VideoPlayer';
+import { theme } from '..//theme';
 
 // Define the metadata for your VideoPlayer component story
 const meta: Meta<typeof VideoPlayer> = {

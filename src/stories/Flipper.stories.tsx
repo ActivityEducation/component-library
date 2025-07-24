@@ -7,10 +7,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Flipper, Card, Button components and the theme
-import { Flipper } from '../system/components/Flipper';
-import { Card } from '../system/components/Card'; // Use Card to wrap content
-import { Button } from '../system/components/Button'; // For interactive controls
-import { theme } from '../system/theme';
+import { Flipper } from '..//components/Flipper';
+import { Card } from '..//components/Card'; // Use Card to wrap content
+import { Button } from '..//components/Button'; // For interactive controls
+import { theme } from '..//theme';
 
 // Define the metadata for your Flipper component story
 const meta: Meta<typeof Flipper> = {

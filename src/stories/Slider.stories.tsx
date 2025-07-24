@@ -6,9 +6,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Slider component and the theme
-import { Slider } from '../system/components/Slider';
-import { Button } from '../system/components/Button'; // For interactive controls
-import { theme } from '../system/theme';
+import { Slider } from '..//components/Slider';
+import { Button } from '..//components/Button'; // For interactive controls
+import { theme } from '..//theme';
 
 // Define the metadata for your Slider component story
 const meta: Meta<typeof Slider> = {

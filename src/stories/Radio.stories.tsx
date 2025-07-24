@@ -7,8 +7,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Radio component and the theme
-import { Radio } from '../system/components/Radio';
-import { theme } from '../system/theme';
+import { Radio } from '..//components/Radio';
+import { theme } from '..//theme';
 
 // Define the metadata for your Radio component story
 const meta: Meta<typeof Radio> = {

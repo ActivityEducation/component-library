@@ -7,11 +7,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import Sidenav components, Button, List, ListItem, and theme
-import { Sidenav, SidenavContainer, SidenavContent } from '../system/components/Sidenav';
-import { Button } from '../system/components/Button';
-import { List, ListItem } from '../system/components/List';
-import { Icon } from '../system/components/Icon';
-import { theme } from '../system/theme';
+import { Sidenav, SidenavContainer, SidenavContent } from '..//components/Sidenav';
+import { Button } from '..//components/Button';
+import { List, ListItem } from '..//components/List';
+import { Icon } from '..//components/Icon';
+import { theme } from '..//theme';
 
 // Helper content for Sidenav
 const SidenavNavContent = (

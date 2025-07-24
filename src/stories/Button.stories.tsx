@@ -6,9 +6,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Button component, Icon component, and the theme from your UI Kit
-import { Button } from '../system/components/Button';
-import { Icon } from '../system/components/Icon';
-import { theme } from '../system/theme';
+import { Button } from '..//components/Button';
+import { Icon } from '..//components/Icon';
+import { theme } from '..//theme';
 
 // Define the metadata for your Button component story
 // This tells Storybook how to categorize and display your component.

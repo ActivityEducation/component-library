@@ -5,8 +5,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Table component and its sub-components, and the theme
-import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from '../system/components/Table';
-import { theme } from '../system/theme';
+import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from '..//components/Table';
+import { theme } from '..//theme';
 
 // Define sample data for the table stories
 const sampleData = [

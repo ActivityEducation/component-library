@@ -6,9 +6,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Toolbar, Button components and the theme from your UI Kit
-import { Toolbar } from '../system/components/Toolbar';
-import { Button } from '../system/components/Button';
-import { theme } from '../system/theme';
+import { Toolbar } from '..//components/Toolbar';
+import { Button } from '..//components/Button';
+import { theme } from '..//theme';
 
 // Define the metadata for your Toolbar component story
 const meta: Meta<typeof Toolbar> = {

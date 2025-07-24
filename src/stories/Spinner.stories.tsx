@@ -6,9 +6,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Spinner and Button components, and the theme
-import { Spinner } from '../system/components/Spinner';
-import { Button } from '../system/components/Button';
-import { theme } from '../system/theme';
+import { Spinner } from '..//components/Spinner';
+import { Button } from '..//components/Button';
+import { theme } from '..//theme';
 
 // Define the metadata for your Spinner component story
 const meta: Meta<typeof Spinner> = {

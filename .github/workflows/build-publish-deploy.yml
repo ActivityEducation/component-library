@@ -1,0 +1,93 @@
+# Workflow name displayed in GitHub Actions UI
+name: Build, Publish Component & Deploy Storybook
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events to the 'main' branch
+  push:
+    branches:
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Define a set of jobs to be executed
+jobs:
+  # Job to build and publish the component library
+  build-and-publish-component:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js environment
+      # Using Node.js 20 for consistency
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Specify your desired Node.js version
+
+      # Step 3: Install project dependencies
+      # 'npm ci' is preferred for CI/CD environments as it uses package-lock.json
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Build the component library
+      # Assumes you have a script named 'build:component' in your package.json
+      - name: Build component library
+        run: npm run build:component
+
+      # Step 5: Configure npm for publishing
+      # Sets the authentication token for npm registry
+      - name: Configure npm for publishing
+        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+
+      # Step 6: Publish the component library to npm
+      # This step will publish the package defined in your package.json
+      - name: Publish component library to npm
+        run: npm publish
+
+  # Job to build Storybook and deploy it to GitHub Pages
+  deploy-storybook:
+    # This job depends on the 'build-and-publish-component' job completing successfully
+    needs: build-and-publish-component
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Specify your desired Node.js version
+
+      # Step 3: Install project dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Build Storybook
+      # Assumes you have a script named 'build-storybook' in your package.json
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      # Step 5: Deploy Storybook to GitHub Pages
+      # Uses the peaceiris/actions-gh-pages action for deployment
+      - name: Deploy Storybook to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # The GitHub token is automatically provided by GitHub Actions
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # The directory containing the built Storybook files
+          publish_dir: ./storybook-static
+          # The branch to publish to (usually 'gh-pages' for GitHub Pages)
+          publish_branch: gh-pages
+          # Keep existing files in the publish branch (optional, but good for incremental updates)
+          keep_files: false
+          # Commit message for the deployment
+          commit_message: "Deploy Storybook to GitHub Pages"

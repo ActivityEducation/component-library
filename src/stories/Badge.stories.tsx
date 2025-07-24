@@ -5,8 +5,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Badge component and the theme
-import { Badge } from '../system/components/Badge';
-import { theme } from '../system/theme';
+import { Badge } from '../components/Badge';
+import { theme } from '..//theme';
 
 // Define the metadata for your Badge component story
 const meta: Meta<typeof Badge> = {

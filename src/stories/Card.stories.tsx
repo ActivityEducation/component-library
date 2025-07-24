@@ -7,10 +7,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { css, ThemeProvider } from '@emotion/react';
 
 // Import the Card, Button, and Icon components and the theme from your UI Kit
-import { Card } from '../system/components/Card';
-import { Button } from '../system/components/Button';
-import { Icon } from '../system/components/Icon'; // For header icons
-import { theme } from '../system/theme';
+import { Card } from '..//components/Card';
+import { Button } from '..//components/Button';
+import { Icon } from '..//components/Icon'; // For header icons
+import { theme } from '..//theme';
 
 // Define the metadata for your Card component story
 const meta: Meta<typeof Card> = {

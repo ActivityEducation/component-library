@@ -7,9 +7,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Input component and the theme
-import { Input } from '../system/components/Input';
-import { Button } from '../system/components/Button';
-import { theme } from '../system/theme';
+import { Input } from '..//components/Input';
+import { Button } from '..//components/Button';
+import { theme } from '..//theme';
 
 // Example Icons (replace with actual icon library like Lucide React if available)
 const MailIcon = () => <span style={{ fontSize: '18px' }}>✉️</span>;

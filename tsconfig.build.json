@@ -1,0 +1,34 @@
+// tsconfig.build.json
+// This configuration is specifically for Rollup to compile your TypeScript/TSX source
+// into JavaScript for your component library bundles (CJS and ESM).
+// It allows TypeScript to emit JavaScript files.
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.build.tsbuildinfo", // Added for incremental builds
+    "target": "ES2019", // Target modern JavaScript for better compatibility and smaller bundles
+    "module": "ESNext", // Use ESNext module system for Rollup's tree-shaking capabilities
+    "lib": ["dom", "dom.iterable", "esnext"], // Include necessary libraries for browser and modern JS features
+    "jsx": "react-jsx", // Correctly handle React JSX syntax (for React 17+ new JSX transform)
+    "strict": true, // Enable all strict type-checking options for robust code
+    "esModuleInterop": true, // Allows default imports from modules with no default export
+    "skipLibCheck": true, // Skip type checking of declaration files (faster compilation)
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing in file names
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules without default exports
+    "moduleResolution": "node", // Resolve modules using Node.js resolution strategy
+    "resolveJsonModule": true, // Allow importing .json files
+
+    // IMPORTANT: 'noEmit' and 'emitDeclarationOnly' are NOT set to true here.
+    // This allows TypeScript to emit compiled JavaScript files, which Rollup then bundles.
+    // 'declaration' is true to generate .d.ts files, but the 'dts' Rollup plugin
+    // will handle bundling them separately using tsconfig.app.json.
+    "declaration": true, // Generate declaration files alongside JS output (temporarily)
+    "outDir": "dist" // <--- CHANGED: Temporary directory for compiled JS/JSX output before Rollup bundles it
+  },
+  "include": ["src"], // Include all files in the 'src' directory
+  "exclude": [
+    "node_modules", // Exclude node_modules
+    "dist",         // Exclude the final distribution folder
+    "**/*.stories.ts", // Exclude Storybook story files from the library build
+    "**/*.stories.tsx",
+  ]
+}

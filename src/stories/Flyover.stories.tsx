@@ -6,8 +6,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Flyover component and the theme
-import { Flyover } from '../system/components/Flyover'; // Import FlyoverPosition type
-import { theme } from '../system/theme';
+import { Flyover } from '..//components/Flyover'; // Import FlyoverPosition type
+import { theme } from '..//theme';
 
 // Define the metadata for your Flyover component story
 const meta: Meta<typeof Flyover> = {

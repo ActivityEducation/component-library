@@ -7,10 +7,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import Menu, MenuItem, Button, and Icon components, and the theme
-import { Menu, MenuItem } from '../system/components/Menu';
-import { Button } from '../system/components/Button';
-import { Icon } from '../system/components/Icon'; // Import Icon component for direct use
-import { theme } from '../system/theme';
+import { Menu, MenuItem } from '..//components/Menu';
+import { Button } from '..//components/Button';
+import { Icon } from '..//components/Icon'; // Import Icon component for direct use
+import { theme } from '..//theme';
 
 // Define the metadata for your Menu component story
 const meta: Meta<typeof Menu> = {

@@ -6,8 +6,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Select and Option components, and the theme
-import { Select, Option } from '../system/components/Select';
-import { theme } from '../system/theme';
+import { Select, Option } from '..//components/Select';
+import { theme } from '..//theme';
 
 // Define the metadata for your Select component story
 const meta: Meta<typeof Select> = {

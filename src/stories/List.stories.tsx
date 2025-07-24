@@ -7,12 +7,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import List, ListItem components and the theme
-import { List, ListItem } from '../system/components/List';
-import { Button } from '../system/components/Button'; // For trailing actions
-import { Badge } from '../system/components/Badge';   // For trailing badges
-import { Checkbox } from '../system/components/Checkbox'; // For leading checkboxes
-import { Icon } from '../system/components/Icon'; // Import Icon component for direct use
-import { theme } from '../system/theme';
+import { List, ListItem } from '..//components/List';
+import { Button } from '..//components/Button'; // For trailing actions
+import { Badge } from '..//components/Badge';   // For trailing badges
+import { Checkbox } from '..//components/Checkbox'; // For leading checkboxes
+import { Icon } from '..//components/Icon'; // Import Icon component for direct use
+import { theme } from '..//theme';
 
 // Define the metadata for your List component story
 const meta: Meta<typeof List> = {

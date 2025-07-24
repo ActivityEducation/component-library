@@ -7,9 +7,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the ProgressBar component and the theme
-import { ProgressBar } from '../system/components/ProgressBar';
-import { Button } from '../system/components/Button'; // For interactive controls
-import { theme } from '../system/theme';
+import { ProgressBar } from '..//components/ProgressBar';
+import { Button } from '..//components/Button'; // For interactive controls
+import { theme } from '..//theme';
 
 // Define the metadata for your ProgressBar component story
 const meta: Meta<typeof ProgressBar> = {

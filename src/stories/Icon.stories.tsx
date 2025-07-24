@@ -7,8 +7,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Icon component and the theme
-import { Icon } from '../system/components/Icon';
-import { theme } from '../system/theme';
+import { Icon } from '..//components/Icon';
+import { theme } from '..//theme';
 
 // Define the metadata for your Icon component story
 const meta: Meta<typeof Icon> = {
