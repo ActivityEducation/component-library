@@ -67,14 +67,6 @@ jobs:
           # <--- ADDED: Set the GitHub Packages registry URL for semantic-release
           NPM_CONFIG_REGISTRY: 'https://npm.pkg.github.com/'
         run: npx semantic-release
-        # <--- ADDED: semantic-release configuration for GitHub Packages
-        # This can also be in a .releaserc.json file at the root
-        # plugins:
-        #   - "@semantic-release/commit-analyzer"
-        #   - "@semantic-release/release-notes-generator"
-        #   - "@semantic-release/npm" # This plugin handles publishing to npm registry
-        #   - "@semantic-release/github" # This plugin handles creating GitHub releases and comments
-        #   - "@semantic-release/git" # This plugin handles committing package.json and pushing tags
 
   # Job to build Storybook and deploy it to GitHub Pages
   deploy-storybook:
