@@ -65,6 +65,11 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    permissions: # <--- ADDED: Permissions for this job
+      contents: read
+      pages: write # <--- ADDED: Required for GitHub Pages deployment
+      id-token: write # <--- ADDED: Required for OIDC in GitHub Pages
+
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout repository
