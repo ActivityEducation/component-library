@@ -397,7 +397,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       if (isPlaying && !isFullScreen && !isInterruptActive) { // Only hide if playing, not fullscreen, and no interrupt
         setShowControls(false);
       }
-    }, 3000); // Hide after 3 seconds of inactivity
+    }, 3000) as any; // Hide after 3 seconds of inactivity
   }, [isPlaying, isFullScreen, isInterruptActive]);
 
   const handleMouseLeave = useCallback(() => {
