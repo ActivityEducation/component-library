@@ -2,11 +2,10 @@
 // It showcases various visual variants of the badge.
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Badge component and the theme
-import { Badge } from '../components/Badge';
-import { theme } from '..//theme';
+import { Badge } from '../../components/Badge';
+import { theme } from '../../theme';
 
 // Define the metadata for your Badge component story
 const meta: Meta<typeof Badge> = {
@@ -32,11 +31,9 @@ const meta: Meta<typeof Badge> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default }}>
+        <Story />
+      </div>
     ),
   ],
 };

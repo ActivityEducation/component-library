@@ -5,59 +5,77 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import type { SerializedStyles } from '@emotion/react';
+import { css, type SerializedStyles } from '@emotion/react';
 
 // Define the props interface for the Toolbar component
 interface ToolbarProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
-   * The content to be rendered inside the toolbar. Typically a collection of buttons,
-   * links, or other interactive elements.
-   */
-  children: React.ReactNode;
-  /**
-   * Defines the horizontal alignment of items within the toolbar.
-   * Corresponds to CSS `justify-content` property.
+   * Defines the horizontal alignment of toolbar items.
+   * Uses CSS `justify-content` property.
    * @default 'flex-start'
    */
   justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
   /**
-   * Optional Emotion `css` prop for additional custom styles.
+   * Optional Emotion `css` prop for additional custom styles for the outer container.
    */
   css?: SerializedStyles;
+  /**
+   * The content to be rendered inside the toolbar, typically `Button` or `ToolbarGroup` components.
+   */
+  children: React.ReactNode;
 }
 
-// Styled component for the base Toolbar element
+// Styled component for the main Toolbar container
 const StyledToolbar = styled.div<Omit<ToolbarProps, 'children' | 'css'>>`
-  // Base styles for the toolbar, drawing from the AscendUCore theme
   display: flex;
-  align-items: center; // Vertically align items in the center
-  padding: ${(props) => props.theme.spacing.md}; // Consistent padding
-  gap: ${(props) => props.theme.spacing.sm};     // Small gap between items
-  background-color: ${(props) => props.theme.colors.background.surface}; // Use surface background
-  border-radius: ${(props) => props.theme.borderRadius.md};             // Rounded corners
-  box-shadow: ${(props) => props.theme.shadows.sm};                     // Subtle shadow
+  align-items: center;
+  gap: ${(props) => props.theme.spacing.sm}; /* Default gap between items */
+  padding: ${(props) => props.theme.spacing.xs} ${(props) => props.theme.spacing.md};
+  background-color: ${(props) => props.theme.colors.background.surface};
+  border-radius: ${(props) => props.theme.borderRadius.md};
+  min-height: 48px; /* Standard height for toolbars */
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
 
-  // Apply justify-content based on prop
-  justify-content: ${(props) => props.justifyContent || 'flex-start'};
-
-  // Ensure responsiveness: toolbars should take full width
-  width: 100%;
-  box-sizing: border-box; // Include padding and border in the element's total width and height
-  flex-wrap: wrap; // Allow items to wrap to the next line on smaller screens
+  ${(props) =>
+    props.justifyContent &&
+    css`
+      justify-content: ${props.justifyContent};
+    `}
 `;
 
 /**
- * A flexible Toolbar component for grouping actions or navigation items in the AscendUCore Design System.
- * It provides a consistent visual container and handles horizontal arrangement of its children.
+ * The Toolbar component provides a container for grouping actions or controls.
+ * It's designed to hold `Button` components or `ToolbarGroup` components for further organization.
  */
-export const Toolbar: React.FC<ToolbarProps> = ({
-  children,
-  justifyContent = 'flex-start', // Default alignment
-  ...props // Pass remaining props to the underlying div element
-}) => {
+export const Toolbar: React.FC<ToolbarProps> = ({ justifyContent = 'flex-start', children, ...props }) => {
   return (
     <StyledToolbar justifyContent={justifyContent} {...props}>
       {children}
     </StyledToolbar>
   );
 };
+
+// Define the props interface for the ToolbarGroup component
+export interface ToolbarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Optional Emotion `css` prop for additional custom styles for the outer container.
+   */
+  css?: SerializedStyles;
+  /**
+   * The content to be rendered inside the toolbar group, typically `Button` components.
+   */
+  children: React.ReactNode;
+}
+
+// Styled component for grouping items within a Toolbar
+export const ToolbarGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${(props) => props.theme.spacing.xs}; /* Smaller gap within a group */
+  padding: 0 ${(props) => props.theme.spacing.sm}; /* Padding inside group */
+  border-right: 1px solid ${(props) => props.theme.colors.border.default}; /* Separator */
+  
+  &:last-of-type {
+    border-right: none; /* No separator after the last group */
+  }
+`;

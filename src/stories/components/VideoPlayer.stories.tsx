@@ -2,11 +2,10 @@
 // It showcases the video player with various configurations.
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the VideoPlayer component and the theme
-import { VideoPlayer } from '..//components/VideoPlayer';
-import { theme } from '..//theme';
+import { VideoPlayer } from '../../components/VideoPlayer';
+import { theme } from '../../theme';
 
 // Define the metadata for your VideoPlayer component story
 const meta: Meta<typeof VideoPlayer> = {
@@ -50,11 +49,9 @@ const meta: Meta<typeof VideoPlayer> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], display: 'flex', justifyContent: 'center' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], display: 'flex', justifyContent: 'center' }}>
+        <Story />
+      </div>
     ),
   ],
 };

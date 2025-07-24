@@ -4,14 +4,13 @@
 
 import { useEffect, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import Sidenav components, Button, List, ListItem, and theme
-import { Sidenav, SidenavContainer, SidenavContent } from '..//components/Sidenav';
-import { Button } from '..//components/Button';
-import { List, ListItem } from '..//components/List';
-import { Icon } from '..//components/Icon';
-import { theme } from '..//theme';
+import { Sidenav, SidenavContainer, SidenavContent } from '../../components/Sidenav';
+import { Button } from '../../components/Button';
+import { List, ListItem } from '../../components/List';
+import { Icon } from '../../components/Icon';
+import { theme } from '../../theme';
 
 // Helper content for Sidenav
 const SidenavNavContent = (
@@ -116,24 +115,22 @@ const meta: Meta<typeof Sidenav> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ padding: theme.spacing.md, background: theme.colors.primary['40'], color: '#fff', display: 'flex', alignItems: 'center', gap: theme.spacing.md }}>
-            <h1 style={{ ...theme.typography.h3, margin: 0, color: '#fff' }}>App Header</h1>
-            <span style={{ marginLeft: 'auto' }}>
-              <Button variant="ghost" onClick={() => {
-                // This button will be outside the SidenavContainer in the story,
-                // so it's a generic toggle for the Sidenav in the render function.
-              }} style={{ color: '#fff' }}>
-                Toggle Sidenav (via header)
-              </Button>
-            </span>
-          </div>
-          <div style={{ flexGrow: 1, display: 'flex' }}>
-            <Story />
-          </div>
+      <div style={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: theme.spacing.md, background: theme.colors.primary['40'], color: '#fff', display: 'flex', alignItems: 'center', gap: theme.spacing.md }}>
+          <h1 style={{ ...theme.typography.h3, margin: 0, color: '#fff' }}>App Header</h1>
+          <span style={{ marginLeft: 'auto' }}>
+            <Button variant="ghost" onClick={() => {
+              // This button will be outside the SidenavContainer in the story,
+              // so it's a generic toggle for the Sidenav in the render function.
+            }} style={{ color: '#fff' }}>
+              Toggle Sidenav (via header)
+            </Button>
+          </span>
         </div>
-      </ThemeProvider>
+        <div style={{ flexGrow: 1, display: 'flex' }}>
+          <Story />
+        </div>
+      </div>
     ),
   ],
 };

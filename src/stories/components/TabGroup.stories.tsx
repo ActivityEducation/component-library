@@ -4,13 +4,12 @@
 
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the TabGroup, Tab components and the theme from your UI Kit
-import { TabGroup } from '..//components/Tab';
-import { Tab } from '..//components/Tab';
-import { Card } from '..//components/Card'; // Use Card to simulate tab content
-import { theme } from '..//theme';
+import { TabGroup } from '../../components/Tab';
+import { Tab } from '../../components/Tab';
+import { Card } from '../../components/Card'; // Use Card to simulate tab content
+import { theme } from '../../theme';
 
 // Define the metadata for your TabGroup component story
 const meta: Meta<typeof TabGroup> = {
@@ -40,11 +39,9 @@ const meta: Meta<typeof TabGroup> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], width: '100%' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], width: '100%' }}>
+        <Story />
+      </div>
     ),
   ],
 };

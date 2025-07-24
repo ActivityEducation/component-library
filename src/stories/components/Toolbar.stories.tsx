@@ -3,12 +3,11 @@
 // It showcases various configurations and content arrangements within the Toolbar.
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Toolbar, Button components and the theme from your UI Kit
-import { Toolbar } from '..//components/Toolbar';
-import { Button } from '..//components/Button';
-import { theme } from '..//theme';
+import { Toolbar } from '../../components/Toolbar';
+import { Button } from '../../components/Button';
+import { theme } from '../../theme';
 
 // Define the metadata for your Toolbar component story
 const meta: Meta<typeof Toolbar> = {
@@ -33,11 +32,9 @@ const meta: Meta<typeof Toolbar> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], width: '100%' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], width: '100%' }}>
+        <Story />
+      </div>
     ),
   ],
 };

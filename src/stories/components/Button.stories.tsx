@@ -3,12 +3,11 @@
 // Stories allow for isolated development, testing, and documentation of UI components.
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Button component, Icon component, and the theme from your UI Kit
-import { Button } from '..//components/Button';
-import { Icon } from '..//components/Icon';
-import { theme } from '..//theme';
+import { Button } from '../../components/Button';
+import { Icon } from '../../components/Icon';
+import { theme } from '../../theme';
 
 // Define the metadata for your Button component story
 // This tells Storybook how to categorize and display your component.
@@ -52,11 +51,9 @@ const meta: Meta<typeof Button> = {
   // Decorators allow wrapping stories with common providers, like our ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
+        <Story />
+      </div>
     ),
   ],
 };

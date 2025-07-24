@@ -2,11 +2,10 @@
 // It showcases various configurations and content arrangements for tabular data.
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Table component and its sub-components, and the theme
-import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from '..//components/Table';
-import { theme } from '..//theme';
+import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from '../../components/Table';
+import { theme } from '../../theme';
 
 // Define sample data for the table stories
 const sampleData = [
@@ -42,11 +41,9 @@ const meta: Meta<typeof Table> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], width: '100%' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], width: '100%' }}>
+        <Story />
+      </div>
     ),
   ],
 };

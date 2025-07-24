@@ -3,11 +3,10 @@
 
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Select and Option components, and the theme
-import { Select, Option } from '..//components/Select';
-import { theme } from '..//theme';
+import { Select, Option } from '../../components/Select';
+import { theme } from '../../theme';
 
 // Define the metadata for your Select component story
 const meta: Meta<typeof Select> = {
@@ -47,11 +46,9 @@ const meta: Meta<typeof Select> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, minHeight: '300px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, minHeight: '300px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+        <Story />
+      </div>
     ),
   ],
 };

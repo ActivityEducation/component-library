@@ -4,12 +4,11 @@
 
 import { useState, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the ProgressBar component and the theme
-import { ProgressBar } from '..//components/ProgressBar';
-import { Button } from '..//components/Button'; // For interactive controls
-import { theme } from '..//theme';
+import { ProgressBar } from '../../components/ProgressBar';
+import { Button } from '../../components/Button'; // For interactive controls
+import { theme } from '../../theme';
 
 // Define the metadata for your ProgressBar component story
 const meta: Meta<typeof ProgressBar> = {
@@ -34,11 +33,9 @@ const meta: Meta<typeof ProgressBar> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, width: '100%', maxWidth: '600px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, width: '100%', maxWidth: '600px' }}>
+        <Story />
+      </div>
     ),
   ],
 };
@@ -141,7 +138,7 @@ export const AnimatedLoading: Story = {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-      let interval: number;
+      let interval: NodeJS.Timeout;
       if (isLoading && progress < 100) {
         interval = setInterval(() => {
           setProgress((prev) => {

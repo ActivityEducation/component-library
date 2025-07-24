@@ -4,15 +4,14 @@
 
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import List, ListItem components and the theme
-import { List, ListItem } from '..//components/List';
-import { Button } from '..//components/Button'; // For trailing actions
-import { Badge } from '..//components/Badge';   // For trailing badges
-import { Checkbox } from '..//components/Checkbox'; // For leading checkboxes
-import { Icon } from '..//components/Icon'; // Import Icon component for direct use
-import { theme } from '..//theme';
+import { List, ListItem } from '../../components/List';
+import { Button } from '../../components/Button'; // For trailing actions
+import { Badge } from '../../components/Badge';   // For trailing badges
+import { Checkbox } from '../../components/Checkbox'; // For leading checkboxes
+import { Icon } from '../../components/Icon'; // Import Icon component for direct use
+import { theme } from '../../theme';
 
 // Define the metadata for your List component story
 const meta: Meta<typeof List> = {
@@ -30,11 +29,9 @@ const meta: Meta<typeof List> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], display: 'flex', justifyContent: 'center' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], display: 'flex', justifyContent: 'center' }}>
+        <Story />
+      </div>
     ),
   ],
 };

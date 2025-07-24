@@ -3,12 +3,11 @@
 
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Slider component and the theme
-import { Slider } from '..//components/Slider';
-import { Button } from '..//components/Button'; // For interactive controls
-import { theme } from '..//theme';
+import { Slider } from '../../components/Slider';
+import { Button } from '../../components/Button'; // For interactive controls
+import { theme } from '../../theme';
 
 // Define the metadata for your Slider component story
 const meta: Meta<typeof Slider> = {
@@ -56,11 +55,9 @@ const meta: Meta<typeof Slider> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, width: '100%', maxWidth: '600px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, width: '100%', maxWidth: '600px' }}>
+        <Story />
+      </div>
     ),
   ],
 };

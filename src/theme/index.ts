@@ -98,6 +98,16 @@ export const theme = {
       lineHeight: 1.4,
       color: neutral['10'],
     },
+    h5: {
+      fontSize: '20px',
+      fontWeight: 500,
+      lineHeight: 1.4,
+    },
+    h6: {
+      fontSize: '18px',
+      fontWeight: 500,
+      lineHeight: 1.45,
+    },
     // Body text
     body: {
       fontSize: '1rem', // 16px

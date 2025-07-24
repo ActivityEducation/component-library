@@ -4,11 +4,10 @@
 
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Radio component and the theme
-import { Radio } from '..//components/Radio';
-import { theme } from '..//theme';
+import { Radio } from '../../components/Radio';
+import { theme } from '../../theme';
 
 // Define the metadata for your Radio component story
 const meta: Meta<typeof Radio> = {
@@ -59,11 +58,9 @@ const meta: Meta<typeof Radio> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default }}>
+        <Story />
+      </div>
     ),
   ],
 };

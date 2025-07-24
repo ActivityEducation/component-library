@@ -6,8 +6,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 
 // Import the Flyover component and the theme
-import { Flyover } from '..//components/Flyover'; // Import FlyoverPosition type
-import { theme } from '..//theme';
+import { Flyover } from '../../components/Flyover'; // Import FlyoverPosition type
+import { theme } from '../../theme';
 
 // Define the metadata for your Flyover component story
 const meta: Meta<typeof Flyover> = {
@@ -37,11 +37,9 @@ const meta: Meta<typeof Flyover> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, minHeight: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, minHeight: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+        <Story />
+      </div>
     ),
   ],
 };

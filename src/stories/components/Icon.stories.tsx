@@ -4,11 +4,10 @@
 // Example: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Icon component and the theme
-import { Icon } from '..//components/Icon';
-import { theme } from '..//theme';
+import { Icon } from '../../components/Icon';
+import { theme } from '../../theme';
 
 // Define the metadata for your Icon component story
 const meta: Meta<typeof Icon> = {
@@ -46,11 +45,9 @@ const meta: Meta<typeof Icon> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
+        <Story />
+      </div>
     ),
   ],
 };

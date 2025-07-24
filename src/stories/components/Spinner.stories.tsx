@@ -3,12 +3,11 @@
 
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Spinner and Button components, and the theme
-import { Spinner } from '..//components/Spinner';
-import { Button } from '..//components/Button';
-import { theme } from '..//theme';
+import { Spinner } from '../../components/Spinner';
+import { Button } from '../../components/Button';
+import { theme } from '../../theme';
 
 // Define the metadata for your Spinner component story
 const meta: Meta<typeof Spinner> = {
@@ -29,11 +28,9 @@ const meta: Meta<typeof Spinner> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
+        <Story />
+      </div>
     ),
   ],
 };

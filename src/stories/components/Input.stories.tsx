@@ -4,12 +4,11 @@
 
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Input component and the theme
-import { Input } from '..//components/Input';
-import { Button } from '..//components/Button';
-import { theme } from '..//theme';
+import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
+import { theme } from '../../theme';
 
 // Example Icons (replace with actual icon library like Lucide React if available)
 const MailIcon = () => <span style={{ fontSize: '18px' }}>✉️</span>;
@@ -87,11 +86,9 @@ const meta: Meta<typeof Input> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', flexDirection: 'column', gap: theme.spacing.xl, justifyContent: 'center', alignItems: 'flex-start', minHeight: '400px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', flexDirection: 'column', gap: theme.spacing.xl, justifyContent: 'center', alignItems: 'flex-start', minHeight: '400px' }}>
+        <Story />
+      </div>
     ),
   ],
 };

@@ -4,13 +4,13 @@
 // including its new structured slots.
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { css, ThemeProvider } from '@emotion/react';
+import { css } from '@emotion/react';
 
 // Import the Card, Button, and Icon components and the theme from your UI Kit
-import { Card } from '..//components/Card';
-import { Button } from '..//components/Button';
-import { Icon } from '..//components/Icon'; // For header icons
-import { theme } from '..//theme';
+import { Card } from '../../components/Card';
+import { Button } from '../../components/Button';
+import { Icon } from '../../components/Icon'; // For header icons
+import { theme } from '../../theme';
 
 // Define the metadata for your Card component story
 const meta: Meta<typeof Card> = {
@@ -52,11 +52,9 @@ const meta: Meta<typeof Card> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '400px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.neutral['95'], display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '400px' }}>
+        <Story />
+      </div>
     ),
   ],
 };

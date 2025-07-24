@@ -1,4 +1,3 @@
-// src/components/Flyover.tsx
 // This file defines the Flyover component for the AscendUCore Design System.
 // It wraps text and, upon hover (desktop) or tap (mobile), displays a Card
 // with additional content, useful for glossary terms, tooltips, or contextual info.
@@ -7,7 +6,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import type { SerializedStyles } from '@emotion/react';
-import { Card } from '../Card'; // Import Card component for the flyover content
+import { Card } from '../Card';
 import { theme } from '../../theme';
 
 // Define possible positions for the flyover popover
@@ -38,7 +37,7 @@ interface FlyoverProps extends React.HTMLAttributes<HTMLSpanElement> {
    * Fixed positions (e.g., 'fix-top-left') are relative to the viewport.
    * @default 'bottom'
    */
-  position?: FlyoverPosition;
+  position?: FlyoverPosition | any;
   /**
    * Optional Emotion `css` prop for additional custom styles for the trigger text.
    */
@@ -141,7 +140,7 @@ export const Flyover: React.FC<FlyoverProps> = ({
     }
     timeoutRef.current = setTimeout(() => {
       setIsVisible(false);
-    }, 100); // Small delay before hiding
+    }, 100) as any; // Small delay before hiding
   }, []);
 
   // Calculate popover position dynamically

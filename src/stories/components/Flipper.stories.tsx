@@ -4,13 +4,12 @@
 
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Flipper, Card, Button components and the theme
-import { Flipper } from '..//components/Flipper';
-import { Card } from '..//components/Card'; // Use Card to wrap content
-import { Button } from '..//components/Button'; // For interactive controls
-import { theme } from '..//theme';
+import { Flipper } from '../../components/Flipper';
+import { Card } from '../../components/Card'; // Use Card to wrap content
+import { Button } from '../../components/Button'; // For interactive controls
+import { theme } from '../../theme';
 
 // Define the metadata for your Flipper component story
 const meta: Meta<typeof Flipper> = {
@@ -57,11 +56,9 @@ const meta: Meta<typeof Flipper> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '350px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '350px' }}>
+        <Story />
+      </div>
     ),
   ],
 };

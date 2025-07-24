@@ -3,11 +3,10 @@
 
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import the Checkbox component and the theme
-import { Checkbox } from '..//components/Checkbox';
-import { theme } from '..//theme';
+import { Checkbox } from '../../components/Checkbox';
+import { theme } from '../../theme';
 
 // Define the metadata for your Checkbox component story
 const meta: Meta<typeof Checkbox> = {
@@ -53,11 +52,9 @@ const meta: Meta<typeof Checkbox> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default }}>
+        <Story />
+      </div>
     ),
   ],
 };

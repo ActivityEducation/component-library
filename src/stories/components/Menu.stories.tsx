@@ -4,13 +4,12 @@
 
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
 
 // Import Menu, MenuItem, Button, and Icon components, and the theme
-import { Menu, MenuItem } from '..//components/Menu';
-import { Button } from '..//components/Button';
-import { Icon } from '..//components/Icon'; // Import Icon component for direct use
-import { theme } from '..//theme';
+import { Menu, MenuItem } from '../../components/Menu';
+import { Button } from '../../components/Button';
+import { Icon } from '../../components/Icon'; // Import Icon component for direct use
+import { theme } from '../../theme';
 
 // Define the metadata for your Menu component story
 const meta: Meta<typeof Menu> = {
@@ -39,11 +38,9 @@ const meta: Meta<typeof Menu> = {
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, minHeight: '200px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ padding: theme.spacing.xl, backgroundColor: theme.colors.background.default, minHeight: '200px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+        <Story />
+      </div>
     ),
   ],
 };
