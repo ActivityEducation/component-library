@@ -17,6 +17,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write # <--- ADDED: Permission to write to GitHub Packages
+
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout repository
@@ -28,6 +32,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20' # Specify your desired Node.js version
+          # <--- ADDED: Configure npm registry for GitHub Packages
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@${{ github.repository_owner }}' # <--- ADDED: Your GitHub username/organization
 
       # Step 3: Install project dependencies
       # 'npm ci' is preferred for CI/CD environments as it uses package-lock.json
@@ -39,14 +46,16 @@ jobs:
       - name: Build component library
         run: npm run build:component
 
-      # Step 5: Configure npm for publishing
-      # Sets the authentication token for npm registry
-      - name: Configure npm for publishing
-        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+      # Step 5: Configure npm for publishing (to GitHub Packages)
+      # Sets the authentication token for GitHub Packages registry
+      - name: Configure npm for publishing to GitHub Packages
+        run: npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
+        # Note: GITHUB_TOKEN is automatically provided by GitHub Actions and has 'packages:write' permission.
+        # No need for a separate NPM_TOKEN secret for GitHub Packages.
 
-      # Step 6: Publish the component library to npm
+      # Step 6: Publish the component library to GitHub Packages
       # This step will publish the package defined in your package.json
-      - name: Publish component library to npm
+      - name: Publish component library to GitHub Packages
         run: npm publish
 
   # Job to build Storybook and deploy it to GitHub Pages
