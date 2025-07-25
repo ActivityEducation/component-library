@@ -23,6 +23,7 @@ export * from './components/Tab';
 export * from './components/Table';
 export * from './components/Toolbar';
 export * from './components/VideoPlayer';
+export * from './components/Editor';
 
 // Export the theme object itself, useful for direct access to design tokens
 export * from './theme';
