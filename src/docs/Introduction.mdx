@@ -1,21 +1,10 @@
 # **AscendUCore Design System & Component Library**
 
-Please feel free to also check out our [Design System & Component Library in Storybook](https://design.edupub.social).
+Please feel free to also check out our [Core Documentation Site](https://join.edupub.social).
 
 ## **Introduction & Overview**
 
 The **AscendUCore Design System** is the foundational visual and interactive language powering our educational platform built on ActivityPub. Its core intent is to create a consistent, professional, and confidence-inspiring user experience across all applications. By providing reusable components, clear guidelines, and robust design tokens, we streamline development and elevate the entire learning journey.
-
-### **Purpose and Benefits**
-
-The driving force behind the AscendUCore Design System is a commitment to accelerate development, ensure brand cohesion, and significantly enhance the user experience for self-paced learners.
-
-* **Unwavering Consistency:** We guarantee a unified look, feel, and behavior across every aspect of the platform. This predictability in UI fosters trust and ease of use, critical for learners who depend on a stable and predictable environment.  
-* **Accelerated Efficiency:** By offering a library of pre-built, rigorously tested, and well-documented UI components, we drastically cut down development cycles. Teams can rapidly assemble interfaces, focusing on innovation rather than rebuilding common elements.  
-* **Seamless Scalability:** As our platform and team expand, the design system ensures new developers and designers can quickly contribute. A shared language and toolkit prevent "design drift," ensuring all new features integrate seamlessly.  
-* **Effortless Maintainability:** Centralizing all design decisions and component logic simplifies ongoing maintenance. Updates, bug fixes, and enhancements to UI elements are applied once and propagated across all consuming applications, reducing long-term effort and technical debt.  
-* **Inherent Accessibility:** Accessibility (WCAG standards) is a foundational principle, not an afterthought. Components are built from the ground up to be inclusive, ensuring an equitable learning environment for individuals of all abilities.  
-* **Strengthened Brand Identity:** Consistent application of visual guidelines and interactive patterns reinforces the AscendUCore brand. Every user interaction contributes to a cohesive, recognizable, and reliable brand presence.
 
 ### **Core Principles & Design Philosophy**
 
@@ -71,10 +60,10 @@ The AscendUCore Component Library is built upon a modern and efficient technolog
 To set up the AscendUCore Design System locally for development or to explore its components, follow these steps:
 
 1. **Clone the repository:**  
-   git clone https://github.com/your-repo/ascenducore-ui-kit.git  
+   git clone https://github.com/activityeducation/component-library.git  
    cd ascenducore-ui-kit
 
-   *(Replace https://github.com/your-repo/ascenducore-ui-kit.git with your actual repository URL)*  
+   *(Replace https://github.com/activityeducation/component-library.git with your actual repository URL)*  
 2. **Install dependencies:**  
    `npm install` or `yarn install`
 
@@ -104,7 +93,7 @@ All AscendUCore components, styled with Emotion.js, require a ThemeProvider to a
 **Example for React applications (App.js or \_app.js):**  
 ```tsx
 import React from 'react';  
-import { ThemeProvider, theme, Button } from 'ascenducore-ui-kit'; // Adjust path if local linking
+import { ThemeProvider, theme, Button } from '@activityeducation/component-library'; // Adjust path if local linking
 
 function App() {  
   return (  
@@ -124,7 +113,7 @@ export default App;
 
 Components are imported directly from the published npm package using standard ES6 import syntax and used as standard React components within your JSX code.  
 ```tsx
-import { Button, Card, Input, Icon } from 'ascenducore-ui-kit';
+import { Button, Card, Input, Icon } from '@activityeducation/component-library';
 
 function MyComponent() {  
   return (  
