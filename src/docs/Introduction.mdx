@@ -1,0 +1,137 @@
+# **AscendUCore Design System & Component Library**
+
+> Please feel free to also check out our [Primary Documentation Site](https://join.edupub.social).
+
+## **Introduction & Overview**
+
+The **AscendUCore Design System** is the foundational visual and interactive language powering our educational platform built on ActivityPub. Its core intent is to create a consistent, professional, and confidence-inspiring user experience across all applications. By providing reusable components, clear guidelines, and robust design tokens, we streamline development and elevate the entire learning journey.
+
+### **Purpose and Benefits**
+
+The driving force behind the AscendUCore Design System is a commitment to accelerate development, ensure brand cohesion, and significantly enhance the user experience for self-paced learners.
+
+- **Unwavering Consistency:** We guarantee a unified look, feel, and behavior across every aspect of the platform. This predictability in UI fosters trust and ease of use, critical for learners who depend on a stable and predictable environment.
+- **Accelerated Efficiency:** By offering a library of pre-built, rigorously tested, and well-documented UI components, we drastically cut down development cycles. Teams can rapidly assemble interfaces, focusing on innovation rather than rebuilding common elements.
+- **Seamless Scalability:** As our platform and team expand, the design system ensures new developers and designers can quickly contribute. A shared language and toolkit prevent "design drift," ensuring all new features integrate seamlessly.
+- **Effortless Maintainability:** Centralizing all design decisions and component logic simplifies ongoing maintenance. Updates, bug fixes, and enhancements to UI elements are applied once and propagated across all consuming applications, reducing long-term effort and technical debt.
+- **Inherent Accessibility:** Accessibility (WCAG standards) is a foundational principle, not an afterthought. Components are built from the ground up to be inclusive, ensuring an equitable learning environment for individuals of all abilities.
+- **Strengthened Brand Identity:** Consistent application of visual guidelines and interactive patterns reinforces the AscendUCore brand. Every user interaction contributes to a cohesive, recognizable, and reliable brand presence.
+
+### **Core Principles & Design Philosophy**
+
+Our design philosophy is deeply rooted in the unique needs of an educational context, with every decision prioritizing the learner's journey and experience.
+
+- **Clarity & Readability:** Information is presented with absolute clarity. Typography, color contrast, and layout are optimized to minimize cognitive load, allowing learners to focus purely on absorbing knowledge.
+- **Approachability & Trust:** We design for an inviting, intuitive, and reassuring interface. A clean aesthetic and predictable interactions build user confidence in both the platform and its content.
+- **Focus & Minimal Distraction:** Recognizing the importance of concentration for self-paced learners, our UI guides attention to essential content. Unnecessary clutter and distractions are minimized, encouraging deep engagement with learning materials.
+- **Progress & Achievement:** The system subtly, yet effectively, communicates progress and celebrates milestones. Visual indicators, encouraging feedback, and clear pathways motivate learners, reinforcing their accomplishments throughout their educational journey.
+- **Adaptive Responsiveness:** Components are engineered to adapt seamlessly across all devices – desktops, tablets, and mobile phones. This ensures an optimal and uncompromised learning experience, regardless of the screen size.
+
+## **🚀 Features**
+
+This design system offers a growing collection of reusable UI components, each meticulously designed and implemented to align with the system's principles and tokens:
+
+- **Badge**: Small, versatile UI elements for status, counts, or categorization, supporting various semantic color variants.
+- **Button**: Fundamental interactive elements with various styles (primary, secondary, ghost, destructive, icon) and sizes (sm, md, lg), including a compact, circular icon variant.
+- **Card**: Flexible containers for grouping related content, with structured slots for headers, titles, subtitles, main content, actions, and footers.
+- **Checkbox**: Standard form controls for multi-selection, supporting checked, unchecked, indeterminate, and disabled states.
+- **Flipper**: Provides a 3D flip animation effect, ideal for flashcards or showcasing front and back content, with configurable directions and durations.
+- **Flyover**: Wraps text and displays a contextual Card on hover/tap, useful for glossary terms or tooltips. Features configurable position and automatic collision detection/flipping.
+- **Icon**: Flexible component supporting Font Awesome classes, SVG URLs, and inline SVG content, with configurable sizes and colors.
+- **Input**: Styled text input fields with support for floating labels, helper text, error states, and leading/trailing adornments (including icons).
+- **List / ListItem**: Structured containers for vertical content display, supporting leading/trailing elements, interactive states, and disabled states.
+- **Menu / MenuItem**: Components to present contextual actions/options via a trigger element, supporting leading/trailing content and disabled states.
+- **ProgressBar**: Visual indicator for progress, displaying a value relative to a max value. Features unique visual markers for interactive video interrupts.
+- **Radio**: Standard form controls for single selections within a group, supporting checked and disabled states.
+- **Select / Option**: Customizable dropdown for single value selection, with custom styling, keyboard navigation, and accessibility features.
+- **Slider**: Interactive control for selecting a value from a range with a draggable thumb, configurable min/max/step values, and disabled state.
+- **Spinner**: Animated circular loading indicator for indeterminate loading states, available in various sizes (sm, md, lg).
+- **Table**: Structured component for tabular data display with default styling for headers and rows, responsive overflow handling, and optional striped rows/bordered cells.
+- **TabGroup / Tab**: Components to organize content into distinct, switchable sections, managing active states and providing navigation between views.
+- **Toolbar**: Flexible containers for grouping actions or navigation, with alignment options and support for item wrapping/grouping.
+- **WYSIWYGEditor**: A rich text editor with a contentEditable area and a robust toolbar for basic formatting, links, lists, and blockquotes.
+
+## **🛠️ Technologies Used**
+
+The AscendUCore Component Library is built upon a modern and efficient technology stack chosen for its performance, developer experience, and compatibility within the React ecosystem:
+
+- **React**: The core JavaScript library for building interactive user interfaces.
+- **Emotion.js (`@emotion/react`, `@emotion/styled`)**: Our chosen CSS-in-JS library for dynamic, scoped, and theme-driven styling.
+- **TypeScript**: Used universally for static type-checking, improving code quality and developer experience.
+- **Storybook**: The primary development environment and documentation portal for isolated component development, testing, and showcasing.
+- **Font Awesome (`@fortawesome/react-fontawesome`)**: Integrated for scalable vector icons and consistent iconography.
+- **Vite**: A next-generation frontend tooling providing an extremely fast development server and efficient bundling.
+- **Rollup**: Used for generating lean, efficient CommonJS (CJS) and ES Module (ESM) production bundles, including TypeScript declaration files (.d.ts).
+- **Semantic-Release**: Automates the package release workflow, including versioning, changelog generation, publishing to npm, and GitHub releases/tags.
+- **Vitest**: Our chosen testing framework for fast and modern unit and component testing, integrating seamlessly with Vite.
+- **ESLint**: Static code analysis tool configured to enforce code quality standards and style consistency.
+
+## **📦 Installation**
+
+To set up the AscendUCore Design System locally for development or to explore its components, follow these steps:
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone [https://github.com/your-repo/ascenducore-ui-kit.git](https://github.com/your-repo/ascenducore-ui-kit.git)
+    cd ascenducore-ui-kit
+    ```
+
+    _(Replace `https://github.com/your-repo/ascenducore-ui-kit.git` with your actual repository URL)_
+
+2.  **Install dependencies:**
+
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+
+3.  **Add Font Awesome CSS for Storybook (Crucial for Icon Component):**
+    To ensure that Font Awesome icons render correctly within the Storybook environment, their global CSS stylesheet must be loaded. This is handled automatically by Storybook due to configurations in `main.ts` and the inclusion of the Font Awesome CDN link within `preview-head.html`. This ensures that when you run the Storybook development server, the icons are correctly displayed.
+    You can manually verify or add the following line to `.storybook/preview-head.html`:
+    ```html
+    <link
+      rel="stylesheet"
+      href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css)"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    ```
+
+## **💡 Usage in Your Project**
+
+The AscendUCore Component Library is designed to be consumed as a standard npm package within any React application. It can also be integrated into traditional CSS/Sass projects via CSS variables.
+
+### **Package Information**
+
+The library is published as an npm package named `@activityeducation/component-library`.
+
+### **Peer Dependencies**
+
+The library relies on `react` and `react-dom` as "peer dependencies" (versions compatible with `^19.0.0`). This ensures the consuming application provides compatible React instances, preventing issues with duplicate React versions.
+
+### **ThemeProvider Setup (Crucial!)**
+
+All AscendUCore components, styled with Emotion.js, require a `ThemeProvider` to access global design tokens. It is crucial to wrap your application, or the sections utilizing these components, with this `ThemeProvider`.
+
+**Example for React applications (`App.js` or `_app.js`):**
+
+```typescript
+import React from "react";
+import { ThemeProvider, theme, Button } from "ascenducore-ui-kit"; // Adjust path if local linking
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <div>
+        <h1>My Learning Platform</h1>
+        <Button variant="primary">Start Course</Button>
+        {/* Other components from AscendUCore UI Kit */}
+      </div>
+    </ThemeProvider>
+  );
+}
+export default App;
+```
