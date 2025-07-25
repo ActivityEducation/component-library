@@ -148,6 +148,7 @@ export const theme = {
     md: '8px',
     lg: '12px',
     full: '9999px', // For pill-shaped elements
+    default: '8px' // Added 'default' as used in components
   },
   // Shadow definitions for depth and hierarchy
   shadows: {

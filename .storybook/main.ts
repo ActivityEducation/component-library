@@ -1,28 +1,45 @@
 // .storybook/main.ts
 
-import type { StorybookConfig } from '@storybook/react-vite';
-
-const config: StorybookConfig = {
+const config = {
   stories: [
-    "../src/stories/**/*.mdx", // Corrected path: assuming stories are inside src/
-    "../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)" // Corrected path
+    "../src/docs/**/*.mdx", // New: Path for pure MDX documentation files
+    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)" // Existing: Path for CSF component stories
   ],
   addons: [
     "@chromatic-com/storybook",
     "@storybook/addon-a11y",
     "@storybook/addon-vitest",
-    {
-      name: "@storybook/addon-docs", // Explicitly define addon-docs
-      options: {
-        configureJSX: true,
-        autodocs: "tag", // Corrected placement: now inside options for addon-docs
-      },
-    }
+    "@storybook/addon-docs",
   ],
+  docs: {
+    // Ensuring autodocs only run for tagged stories
+    autodocs: 'tag', // <--- Changed this line to 'tag'
+    defaultName: 'Documentation',
+  },
   framework: {
     name: "@storybook/react-vite",
-    options: {}
+    options: {
+      builderVite: {
+        viteConfig: async (config) => {
+          if (!config.optimizeDeps) {
+            config.optimizeDeps = {};
+          }
+          if (!config.optimizeDeps.exclude) {
+            config.optimizeDeps.exclude = [];
+          }
+
+          // Exclude Storybook's core internal packages and Emotion from optimization
+          config.optimizeDeps.exclude.push(
+            '@storybook/blocks',
+            '@storybook/addon-docs',
+            '@emotion/react',
+            '@emotion/styled'
+          );
+
+          return config;
+        },
+      },
+    },
   },
-  // autodocs: "tag" // Removed from here as it's now inside addon-docs options
 };
 export default config;

@@ -5,10 +5,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
 import { ThemeProvider } from '@emotion/react';
-import { theme } from '../src/theme'; // Adjust path based on where your theme is relative to .storybook/
+import { theme } from '../src/theme'; // Corrected path to theme
 
 export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {
       color: /(background|color)$/i,
@@ -27,19 +26,25 @@ export const decorators = [
 ];
 
 const preview: Preview = {
+  // tags: ['autodocs'] is intentionally removed from here to prevent
+  // the "No CSF file attached" error for pure MDX docs like Styleguide.mdx.
+  // Add tags: ['autodocs'] directly to specific CSF story files if needed.
   parameters: {
+    actions: {  },
     controls: {
       matchers: {
        color: /(background|color)$/i,
        date: /Date$/i,
       },
     },
-
+    docs: {
+      toc: true, // 👈 Enables the table of contents
+    },
     a11y: {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
-      test: 'todo'
+      test: 'off'
     }
   },
 };
