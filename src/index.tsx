@@ -24,6 +24,7 @@ export * from './components/Table';
 export * from './components/Toolbar';
 export * from './components/VideoPlayer';
 export * from './components/Editor';
+export * from './components/Chart';
 
 // Export the theme object itself, useful for direct access to design tokens
 export * from './theme';
