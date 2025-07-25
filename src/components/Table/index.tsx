@@ -45,7 +45,7 @@ const StyledTable = styled.table<Pick<TableProps, 'striped' | 'bordered'>>`
       text-align: left;
       padding: ${(props) => props.theme.spacing.md};
       background-color: ${(props) => props.theme.colors.neutral['90']}; // Header background color
-      color: ${(props) => props.theme.colors.text.light}; // Light text on dark header
+      color: ${(props) => props.theme.colors.text.default}; // Light text on dark header
       font-weight: ${(props) => props.theme.typography.button.fontWeight}; // Bolder font for headers
       border-bottom: 1px solid ${(props) => props.theme.colors.border.strong};
     }
