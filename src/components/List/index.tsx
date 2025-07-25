@@ -2,7 +2,7 @@
 // ListItem is an individual item within a List component, designed to display
 // content, and optionally leading/trailing elements, with interactive states.
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from '@emotion/styled';
 import type { SerializedStyles } from '@emotion/react';
 import { css } from '@emotion/react';
@@ -121,7 +121,7 @@ const TrailingContent = styled.div`
  * It supports leading and trailing content, interactive states, and integrates with the theme.
  * Leading/trailing content can be Font Awesome icon names (strings), SVG URLs, inline SVGs, or any ReactNode.
  */
-export const ListItem: React.FC<ListItemProps> = ({
+export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(({ // Wrap with forwardRef
   children,
   leading,
   trailing,
@@ -129,7 +129,7 @@ export const ListItem: React.FC<ListItemProps> = ({
   disabled = false,
   onClick,
   ...props
-}) => {
+}, ref) => { // Receive the ref
   const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
     if (interactive && !disabled && onClick) {
       onClick(event);
@@ -146,6 +146,7 @@ export const ListItem: React.FC<ListItemProps> = ({
 
   return (
     <StyledListItem
+      ref={ref} // Pass the ref to the styled component
       interactive={interactive}
       disabled={disabled}
       onClick={handleClick}
@@ -156,7 +157,7 @@ export const ListItem: React.FC<ListItemProps> = ({
       {trailing && <TrailingContent>{renderAdornment(trailing)}</TrailingContent>}
     </StyledListItem>
   );
-};
+});
 
 // Define the props interface for the List component
 interface ListProps extends React.HTMLAttributes<HTMLUListElement> {
@@ -182,7 +183,7 @@ const StyledList = styled.ul`
   box-shadow: ${(props) => props.theme.shadows.sm};                     // Subtle shadow
   overflow: hidden; // Ensures rounded corners apply to children borders
   width: 100%;
-  max-width: 500px; // Example max-width, can be overridden or made responsive
+  /* Removed max-width to allow the list to fill its parent's width */
   box-sizing: border-box;
 `;
 

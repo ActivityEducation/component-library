@@ -25,6 +25,7 @@ export * from './components/Toolbar';
 export * from './components/VideoPlayer';
 export * from './components/Editor';
 export * from './components/Chart';
+export * from './components/Transcript';
 
 // Widgets
 export * from './widgets/ObjectiveProgress';

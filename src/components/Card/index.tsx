@@ -51,9 +51,6 @@ const StyledCard = styled.div`
   overflow: hidden; // Ensures rounded corners apply to children
   width: 100%;
   box-sizing: border-box;
-
-  // Default max-width, can be overridden by parent or specific instances
-  max-width: 400px;
 `;
 
 // Styled component for the card header
