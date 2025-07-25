@@ -46,6 +46,11 @@ interface FlipperProps extends React.HTMLAttributes<HTMLDivElement> {
    */
   flipDirection?: 'horizontal' | 'vertical';
   /**
+   * If true, the card will flip when clicked.
+   * @default true
+   */
+  flipOnClick?: boolean; // New prop
+  /**
    * Optional Emotion `css` prop for additional custom styles for the outer container.
    */
   css?: SerializedStyles;
@@ -59,8 +64,8 @@ const StyledFlipperContainer = styled.div`
    * to allow the container to size itself based on its content (FlipperInner).
    * The min-width/height ensure it's never too small.
    */
-  min-width: 250px;
-  min-height: 150px;
+  width: 100%;
+  height: 100%;
   display: flex; /* Use flex to center the inner flipper */
   justify-content: center;
   align-items: center;
@@ -73,6 +78,8 @@ const FlipperInner = styled.div<{ isFlipped: boolean; duration: number; flipDire
   position: relative;
   width: 100%; /* Take full width of content-driven parent */
   height: 100%; /* Take full height of content-driven parent */
+  min-width: 460px;
+  min-height: 280px;
   text-align: center;
   transition: transform ${(props) => props.duration}s; // Apply transition duration
   transform-style: preserve-3d; // Required for children to have 3D position
@@ -141,6 +148,7 @@ export const Flipper: React.FC<FlipperProps> = ({
   onFlipChange,
   duration = 0.6,
   flipDirection = 'horizontal',
+  flipOnClick = false, // Default to true for backward compatibility
   onClick, // Capture original onClick
   ...props
 }) => {
@@ -159,23 +167,22 @@ export const Flipper: React.FC<FlipperProps> = ({
     onFlipChange?.(newFlippedState); // Notify parent for controlled/uncontrolled
   }, [effectiveIsFlipped, controlledIsFlipped, onFlipChange]);
 
-  // Handle click on the card to toggle flip
+  // Handle click on the card to conditionally toggle flip
   const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    // Prevent event propagation from children if they have their own click handlers
-    // This allows clicking on the card itself to flip, but not internal buttons.
-    if (event.target === event.currentTarget) {
-      toggleFlip();
-    }
+    debugger;
+    // Only flip if flipOnClick is true and the click is on the container itself
+    // (not on children that might have their own click handlers)
+    if (flipOnClick) toggleFlip();
     onClick?.(event); // Call original onClick if provided
-  }, [toggleFlip, onClick]);
+  }, [toggleFlip, onClick, flipOnClick]);
 
 
   return (
-    <StyledFlipperContainer {...props} onClick={handleClick}>
+    <StyledFlipperContainer {...props}>
       <FlipperInner isFlipped={effectiveIsFlipped} duration={duration} flipDirection={flipDirection}>
         {/* Pass flipDirection to FlipperFront and FlipperBack */}
-        <FlipperFront flipDirection={flipDirection}>{front}</FlipperFront>
-        <FlipperBack flipDirection={flipDirection}>{back}</FlipperBack>
+        <FlipperFront onClick={handleClick} flipDirection={flipDirection}>{front}</FlipperFront>
+        <FlipperBack onClick={handleClick} flipDirection={flipDirection}>{back}</FlipperBack>
       </FlipperInner>
     </StyledFlipperContainer>
   );

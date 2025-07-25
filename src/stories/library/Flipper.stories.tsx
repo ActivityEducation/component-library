@@ -52,6 +52,11 @@ const meta: Meta<typeof Flipper> = {
       description: 'The direction of the flip animation.',
       defaultValue: 'horizontal',
     },
+    flipOnClick: { // New argType for the new prop
+      control: 'boolean',
+      description: 'If true, the card flips when clicked.',
+      defaultValue: true,
+    },
   },
   // Decorator to wrap stories with the ThemeProvider
   decorators: [
@@ -68,7 +73,7 @@ type Story = StoryObj<typeof Flipper>;
 
 // --- Helper Content for Front/Back ---
 const FrontContent = (
-  <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}>
+  <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
     <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.text.default }}>Flashcard Front</h3>
     <p style={{ ...theme.typography.body, margin: `${theme.spacing.sm} 0 0 0`, color: theme.colors.text.default }}>
       What is ActivityPub?
@@ -77,7 +82,7 @@ const FrontContent = (
 );
 
 const BackContent = (
-  <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}>
+  <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
     <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.primary['10'] }}>Flashcard Back</h3>
     <p style={{ ...theme.typography.body, margin: `${theme.spacing.sm} 0 ${theme.spacing.md} 0`, color: theme.colors.primary['10'] }}>
       A decentralized social networking protocol.
@@ -90,20 +95,21 @@ const BackContent = (
 
 // --- Individual Stories ---
 
-// Default Horizontal Flipper (uncontrolled)
+// Default Horizontal Flipper (uncontrolled, flips on click)
 export const DefaultHorizontal: Story = {
   args: {
     front: FrontContent,
     back: BackContent,
     flipDirection: 'horizontal',
+    flipOnClick: true, // Explicitly set to true for clarity
   },
 };
 
-// Default Vertical Flipper (uncontrolled)
+// Default Vertical Flipper (uncontrolled, flips on click)
 export const DefaultVertical: Story = {
   args: {
     front: (
-      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}>
+      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
         <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.text.default }}>Vertical Flipper</h3>
         <p style={{ ...theme.typography.body, margin: `${theme.spacing.sm} 0 0 0`, color: theme.colors.text.default }}>
           Click to see the back!
@@ -111,7 +117,7 @@ export const DefaultVertical: Story = {
       </Card>
     ),
     back: (
-      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}>
+      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
         <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.primary['10'] }}>Back Content</h3>
         <p style={{ ...theme.typography.body, margin: `${theme.spacing.sm} 0 0 0`, color: theme.colors.primary['10'] }}>
           This side flips vertically.
@@ -119,6 +125,7 @@ export const DefaultVertical: Story = {
       </Card>
     ),
     flipDirection: 'vertical',
+    flipOnClick: true,
   },
 };
 
@@ -128,6 +135,7 @@ export const LongerDuration: Story = {
     front: FrontContent,
     back: BackContent,
     duration: 1.5, // 1.5 seconds
+    flipOnClick: true,
   },
 };
 
@@ -137,10 +145,11 @@ export const InitiallyFlipped: Story = {
     front: FrontContent,
     back: BackContent,
     defaultFlipped: true,
+    flipOnClick: true,
   },
 };
 
-// Controlled Flipper Example
+// Controlled Flipper Example (with external button to flip)
 export const ControlledFlipper: Story = {
   render: (args: any) => {
     const [flipped, setFlipped] = useState(false);
@@ -156,8 +165,10 @@ export const ControlledFlipper: Story = {
           {...args}
           isFlipped={flipped}
           onFlipChange={handleFlipChange}
+          // Set flipOnClick to false so only the button controls it
+          flipOnClick={false}
           front={
-            <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}>
+            <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
               <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.text.default }}>Controlled Card</h3>
               <p style={{ ...theme.typography.body, margin: `${theme.spacing.sm} 0 0 0`, color: theme.colors.text.default }}>
                 Currently: {flipped ? 'Back' : 'Front'}
@@ -165,12 +176,15 @@ export const ControlledFlipper: Story = {
             </Card>
           }
           back={
-            <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}>
+            <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
               <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.primary['10'] }}>Controlled Card</h3>
               <p style={{ ...theme.typography.body, margin: `${theme.spacing.sm} 0 ${theme.spacing.md} 0`, color: theme.colors.primary['10'] }}>
                 Currently: {flipped ? 'Back' : 'Front'}
               </p>
-              <Button variant="secondary" size="sm" onClick={() => setFlipped(false)}>
+              <Button variant="secondary" size="sm" onClick={(event: React.MouseEvent) => {
+                setFlipped(false);
+                event.stopPropagation();
+              }}>
                 Flip Back
               </Button>
             </Card>
@@ -187,11 +201,34 @@ export const ControlledFlipper: Story = {
   },
 };
 
+// Flipper that DOES NOT flip on click (only by external means if implemented)
+export const NoFlipOnClick: Story = {
+  args: {
+    front: (
+      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
+        <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.text.default }}>No Flip on Click</h3>
+        <p style={{ ...theme.typography.body, margin: `${theme.spacing.sm} 0 0 0`, color: theme.colors.text.default }}>
+          This card will NOT flip when clicked.
+        </p>
+      </Card>
+    ),
+    back: (
+      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
+        <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.primary['10'] }}>Back View</h3>
+        <p style={{ ...theme.typography.body, margin: `${theme.spacing.sm} 0 0 0`, color: theme.colors.primary['10'] }}>
+          It can only be flipped programmatically.
+        </p>
+      </Card>
+    ),
+    flipOnClick: false, // Explicitly set to false
+  },
+};
+
 // New story: German to English Flashcard
 export const GermanFlashcard: Story = {
   args: {
     front: (
-      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}>
+      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
         <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.text.default }}>German Word</h3>
         <p style={{ ...theme.typography.h1, margin: `${theme.spacing.md} 0 0 0`, color: theme.colors.primary['40'] }}>
           Der Hund
@@ -199,16 +236,20 @@ export const GermanFlashcard: Story = {
       </Card>
     ),
     back: (
-      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}>
+      <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
         <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.primary['10'] }}>English Translation</h3>
         <p style={{ ...theme.typography.h1, margin: `${theme.spacing.md} 0 ${theme.spacing.md} 0`, color: theme.colors.primary['10'] }}>
           Dog
         </p>
-        <Button variant="secondary" size="sm" onClick={() => alert('Remembered!')}>
+        <Button variant="secondary" size="sm" onClick={(event: React.MouseEvent) => {
+          alert('Remembered!');
+          event.stopPropagation();
+        }}>
           Remembered!
         </Button>
       </Card>
     ),
     flipDirection: 'horizontal',
+    flipOnClick: true,
   },
 };
