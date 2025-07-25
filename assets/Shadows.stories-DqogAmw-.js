@@ -1,7 +1,0 @@
-import{j as e,t as s,T as d}from"./iframe-DeWfNokQ.js";import{C as n}from"./index-CGJaPioC.js";import"./emotion-styled.browser.esm-CcKH1BFe.js";const o=()=>e.jsx("div",{style:{display:"flex",flexWrap:"wrap",gap:s.spacing.md,marginBottom:s.spacing.xl},children:Object.entries(s.shadows).map(([t,a])=>e.jsx(n,{style:{width:"180px",height:"100px",display:"flex",justifyContent:"center",alignItems:"center",boxShadow:a,border:`1px solid ${s.colors.neutral[80]}`},children:e.jsxs("div",{style:{fontSize:s.typography.bodySmall.fontSize,color:s.colors.text.default,textAlign:"center"},children:[t,e.jsx("br",{}),"`",a,"`"]})},t))});o.__docgenInfo={description:"",methods:[],displayName:"ShadowsGuide"};const c={title:"Design System/Shadows",component:o,decorators:[t=>e.jsx(d,{theme:s,children:e.jsx("div",{style:{margin:"3em"},children:e.jsx(t,{})})})],parameters:{layout:"centered"},tags:["autodocs"]},r={render:()=>e.jsxs(e.Fragment,{children:[e.jsx("h3",{children:"Subtle Shadows"}),e.jsx("p",{children:"Subtle shadows for depth and visual separation."}),e.jsx(o,{})]})};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
-  render: () => <>
-      <h3>Subtle Shadows</h3>
-      <p>Subtle shadows for depth and visual separation.</p>
-      <ShadowsGuide />
-    </>
-}`,...r.parameters?.docs?.source}}};const h=["SubtleShadows"];export{r as SubtleShadows,h as __namedExportsOrder,c as default};
