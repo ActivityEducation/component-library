@@ -26,7 +26,8 @@
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
     "@storybook/react": "^9.0.18",
     "@storybook/react-webpack5": "^9.0.18",
-    "assert": "^2.1.0"
+    "assert": "^2.1.0",
+    "recharts": "^3.1.0"
   },
   "peerDependencies": {
     "react": "^19.0.0",

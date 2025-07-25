@@ -12,7 +12,7 @@ import type { SerializedStyles } from '@emotion/react';
 // <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" xintegrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 // Define possible sizes for the Icon
-export type IconSize = 'sm' | 'md' | 'lg' | 'xl';
+export type IconSize = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 // Define the props interface for the Icon component
 interface IconProps extends React.HTMLAttributes<HTMLElement> {
@@ -82,6 +82,12 @@ const StyledIconContainer = styled.span<Pick<IconProps, 'size' | 'color'>>`
           font-size: 32px;
           width: 32px;
           height: 32px;
+        `;
+      case 'xxl':
+        return `
+          font-size: 46px;
+          width: 46px;
+          height: 46px;
         `;
       case 'md':
       default:
