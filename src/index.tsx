@@ -1,8 +1,8 @@
-// src/index.ts
 // This is the main entry point for the AscendUCore UI Kit.
 // It exports all public components and the theme provider,
 // making them available for consumption by other applications.
 
+// Components
 export * from './components/Badge';
 export * from './components/Button';
 export * from './components/Card';
@@ -25,6 +25,10 @@ export * from './components/Toolbar';
 export * from './components/VideoPlayer';
 export * from './components/Editor';
 export * from './components/Chart';
+
+// Widgets
+export * from './widgets/ObjectiveProgress';
+export * from './widgets/UpcomingDeadlines';
 
 // Export the theme object itself, useful for direct access to design tokens
 export * from './theme';

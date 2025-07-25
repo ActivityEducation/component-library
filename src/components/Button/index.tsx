@@ -5,7 +5,8 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { css, type SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
+import type { SerializedStyles } from '@emotion/react';
 import { Icon } from '../Icon'; // Import Icon component for icon buttons
 
 // Define possible variants for the button
