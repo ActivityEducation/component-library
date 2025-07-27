@@ -229,7 +229,6 @@ export const GermanFlashcard: Story = {
   args: {
     front: (
       <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
-        <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.text.default }}>German Word</h3>
         <p style={{ ...theme.typography.h1, margin: `${theme.spacing.md} 0 0 0`, color: theme.colors.primary['40'] }}>
           Der Hund
         </p>
@@ -237,16 +236,35 @@ export const GermanFlashcard: Story = {
     ),
     back: (
       <Card style={{ padding: theme.spacing.lg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', width: '500px' }}>
-        <h3 style={{ ...theme.typography.h3, margin: 0, color: theme.colors.primary['10'] }}>English Translation</h3>
         <p style={{ ...theme.typography.h1, margin: `${theme.spacing.md} 0 ${theme.spacing.md} 0`, color: theme.colors.primary['10'] }}>
           Dog
         </p>
-        <Button variant="secondary" size="sm" onClick={(event: React.MouseEvent) => {
-          alert('Remembered!');
-          event.stopPropagation();
-        }}>
-          Remembered!
-        </Button>
+        <div style={{ display: 'flex', gap: theme.spacing.sm, justifyContent: 'center', marginTop: '50px' }}>
+          <Button size="sm" onClick={(event: React.MouseEvent) => {
+            alert('Remembered!');
+            event.stopPropagation();
+          }}>
+            again
+          </Button>
+          <Button size="sm" onClick={(event: React.MouseEvent) => {
+            alert('Remembered!');
+            event.stopPropagation();
+          }}>
+            ok
+          </Button>
+          <Button size="sm" onClick={(event: React.MouseEvent) => {
+            alert('Remembered!');
+            event.stopPropagation();
+          }}>
+            good
+          </Button>
+          <Button size="sm" onClick={(event: React.MouseEvent) => {
+            alert('Remembered!');
+            event.stopPropagation();
+          }}>
+            flawless
+          </Button>
+        </div>
       </Card>
     ),
     flipDirection: 'horizontal',

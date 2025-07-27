@@ -52,7 +52,6 @@ const InputContainer = styled.div`
   position: relative;
   vertical-align: top;
   width: 100%;
-  max-width: 320px; // Default max-width for inputs
   font-family: ${theme.typography.fontFamily};
 `;
 
