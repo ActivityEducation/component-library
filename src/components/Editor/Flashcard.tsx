@@ -378,7 +378,7 @@ const FlashcardEditor: React.FC<FlashcardEditorProps> = ({
   const [draggedSideGlobal, setDraggedSideGlobal] = useState<
     "front" | "back" | null
   >(null);
-  const [draggedOverContainerGlobal, setDraggedOverContainerGlobal] = useState<
+  const [_draggedOverContainerGlobal, setDraggedOverContainerGlobal] = useState<
     "front" | "back" | null
   >(null);
 
@@ -553,45 +553,44 @@ const FlashcardEditor: React.FC<FlashcardEditorProps> = ({
   );
 
   return (
-    <div>
-      <Card>
-        <h2>Interactive Flashcard Creator</h2>
-        {/* Save Button */}
-        {!readOnly && (
-          <Toolbar style={{ marginBottom: '20px' }}>
-            <h3>{editingSide}</h3>
-            <Button
-              onClick={() =>
-                setEditingSide(editingSide === "front" ? "back" : "front")
-              }
-              variant="tertiary"
-              size="sm"
-            >
-              Flip Card
-            </Button>
-            <Button
-              onClick={() => handleAddContent(editingSide, "text")}
-              variant="secondary"
-              size="sm"
-            >
-              Add Text
-            </Button>
-            <Button
-              onClick={() => handleAddContent(editingSide, "image")}
-              variant="primary"
-              size="sm"
-            >
-              Add Image
-            </Button>
-            <Button size="sm" onClick={handleSaveCard}>Save Flashcard</Button>
-          </Toolbar>
-        )}
+    <div style={{ display: "flex", padding: '10px', flexDirection: "column" }}>
+      {/* Save Button */}
+      {!readOnly && (
+        <Toolbar style={{ marginBottom: "20px", borderRadius: "0px" }}>
+          <h3>{editingSide}</h3>
+          <Button
+            onClick={() =>
+              setEditingSide(editingSide === "front" ? "back" : "front")
+            }
+            variant="tertiary"
+            size="sm"
+          >
+            Flip Card
+          </Button>
+          <Button
+            onClick={() => handleAddContent(editingSide, "text")}
+            variant="secondary"
+            size="sm"
+          >
+            Add Text
+          </Button>
+          <Button
+            onClick={() => handleAddContent(editingSide, "image")}
+            variant="primary"
+            size="sm"
+          >
+            Add Image
+          </Button>
+          <Button size="sm" onClick={handleSaveCard}>
+            Save Flashcard
+          </Button>
+        </Toolbar>
+      )}
 
-        {/* Flashcard Display Area */}
-        <div>
-          {editingSide === "front" ? renderSide("front") : renderSide("back")}
-        </div>
-      </Card>
+      {/* Flashcard Display Area */}
+      <div>
+        {editingSide === "front" ? renderSide("front") : renderSide("back")}
+      </div>
     </div>
   );
 };
