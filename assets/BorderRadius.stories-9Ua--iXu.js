@@ -1,7 +1,0 @@
-import{j as e,t as r,T as d}from"./iframe-DBjxWcSu.js";import{C as i}from"./index--bmTD6EN.js";import"./emotion-styled.browser.esm-BYbfZwar.js";const n=()=>e.jsx("div",{style:{display:"flex",flexWrap:"wrap",gap:r.spacing.md,marginBottom:r.spacing.xl},children:Object.entries(r.borderRadius).map(([s,t])=>e.jsx(i,{style:{width:"150px",height:"100px",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:t,border:`2px solid ${r.colors.primary[40]}`,backgroundColor:r.colors.background.surface},children:e.jsxs("div",{style:{fontSize:r.typography.bodySmall.fontSize,color:r.colors.text.default,textAlign:"center"},children:[s,e.jsx("br",{}),"`",t,"`"]})},s))});n.__docgenInfo={description:"",methods:[],displayName:"BorderRadiusGuide"};const m={title:"Design System/Border Radius",component:n,decorators:[s=>e.jsx(d,{theme:r,children:e.jsx("div",{style:{margin:"3em"},children:e.jsx(s,{})})})],parameters:{layout:"centered"},tags:["autodocs"]},o={render:()=>e.jsxs(e.Fragment,{children:[e.jsx("h3",{children:"Rounded Corners"}),e.jsx("p",{children:"Consistent rounding for UI elements."}),e.jsx(n,{})]})};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
-  render: () => <>
-      <h3>Rounded Corners</h3>
-      <p>Consistent rounding for UI elements.</p>
-      <BorderRadiusGuide />
-    </>
-}`,...o.parameters?.docs?.source}}};const p=["RoundedCorners"];export{o as RoundedCorners,p as __namedExportsOrder,m as default};
