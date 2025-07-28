@@ -18,7 +18,7 @@ export const theme = {
 
     // Semantic colors for common UI elements, derived from the raw palettes
     text: {
-      dark: neutral['0'],
+      dark: neutral['0'],          // Dark text color
       default: neutral['10'],       // Default dark text on light backgrounds
       light: neutral['90'],        // Light text (e.g., for dark backgrounds)
       onPrimary: primary['99'],    // Text color to use on primary backgrounds
@@ -29,8 +29,9 @@ export const theme = {
       linkHover: primary['70'],    // Link text color on hover
     },
     background: {
+      toolbar: '#F2F0EA',
       default: neutral['100'],     // Main page background color
-      surface: '#F2F0EA',      // Background for cards, modals, and other elevated surfaces
+      surface: neutral['98'],      // Background for cards, modals, and other elevated surfaces
       primary: primary['40'],      // Primary background color (e.g., for primary buttons)
       secondary: secondary['40'],  // Secondary background color
       tertiary: tertiary['40'],    // Tertiary background color
