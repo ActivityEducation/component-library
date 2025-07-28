@@ -31,7 +31,6 @@ const StyledToolbar = styled.div<Omit<ToolbarProps, 'children' | 'css'>>`
   gap: ${(props) => props.theme.spacing.sm}; /* Default gap between items */
   padding: ${(props) => props.theme.spacing.xs} ${(props) => props.theme.spacing.md};
   background: ${(props) => props.theme.colors.background.toolbar};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   min-height: 64px; /* Standard height for toolbars */
   align-items: center;
   flex-direction: row;
