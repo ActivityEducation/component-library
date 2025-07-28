@@ -28,13 +28,13 @@ interface ToolbarProps extends React.HTMLAttributes<HTMLDivElement> {
 // Styled component for the main Toolbar container
 const StyledToolbar = styled.div<Omit<ToolbarProps, 'children' | 'css'>>`
   display: flex;
-  align-items: center;
   gap: ${(props) => props.theme.spacing.sm}; /* Default gap between items */
   padding: ${(props) => props.theme.spacing.xs} ${(props) => props.theme.spacing.md};
-  background-color: ${(props) => props.theme.colors.background.surface};
+  background: ${(props) => props.theme.colors.background.surface};
   border-radius: ${(props) => props.theme.borderRadius.md};
-  min-height: 48px; /* Standard height for toolbars */
-  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  min-height: 64px; /* Standard height for toolbars */
+  align-items: center;
+  flex-direction: row;
 
   ${(props) =>
     props.justifyContent &&

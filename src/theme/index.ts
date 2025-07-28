@@ -18,6 +18,7 @@ export const theme = {
 
     // Semantic colors for common UI elements, derived from the raw palettes
     text: {
+      dark: neutral['0'],
       default: neutral['10'],       // Default dark text on light backgrounds
       light: neutral['90'],        // Light text (e.g., for dark backgrounds)
       onPrimary: primary['99'],    // Text color to use on primary backgrounds
@@ -29,7 +30,7 @@ export const theme = {
     },
     background: {
       default: neutral['100'],     // Main page background color
-      surface: neutral['98'],      // Background for cards, modals, and other elevated surfaces
+      surface: '#F2F0EA',      // Background for cards, modals, and other elevated surfaces
       primary: primary['40'],      // Primary background color (e.g., for primary buttons)
       secondary: secondary['40'],  // Secondary background color
       tertiary: tertiary['40'],    // Tertiary background color
