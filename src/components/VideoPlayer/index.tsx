@@ -1,9 +1,3 @@
-// src/components/VideoPlayer.tsx
-// This file defines the VideoPlayer component for the AscendUCore Design System.
-// It provides a custom video player interface leveraging other UI Kit components
-// for controls like play/pause, volume, progress, and fullscreen,
-// and now includes support for interactive interrupt elements.
-
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from '@emotion/styled';
 import type { SerializedStyles } from '@emotion/react';
@@ -13,7 +7,6 @@ import { Button } from '../Button';
 import { Slider } from '../Slider';
 import { ProgressBar } from '../ProgressBar';
 import { Card } from '../Card'; // Import Card for interrupt content
-// import { Icon } from './Icon'; // Import Icon component
 import { theme } from '../../theme'; // Import theme for styling
 
 // Helper function to format time (e.g., 120 seconds -> 02:00)
@@ -148,9 +141,10 @@ const TimeDisplay = styled.span`
 // Styled container for the volume slider
 const VolumeControl = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: ${(props) => props.theme.spacing.sm};
-  width: 100px; // Fixed width for volume slider
+  gap: ${(props) => props.theme.spacing.md};
+  width: 120px; // Fixed width for volume slider
   flex-shrink: 0; // Prevent shrinking
 `;
 
@@ -275,8 +269,9 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
       // Set initial volume based on muted prop or default
+      // Note: The `muted` attribute is now handled directly on the StyledVideo component.
+      // This ensures the browser respects the initial mute state for autoplay if applicable.
       videoRef.current.volume = muted ? 0 : 1;
-      videoRef.current.muted = muted;
     }
   }, [muted]);
   const handleVolumeChange = useCallback(() => {
@@ -305,12 +300,12 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       videoElement.addEventListener('volumechange', handleVolumeChange);
       videoElement.addEventListener('ended', handleEnded);
 
-      // Initial play/pause based on autoPlay prop
-      if (autoPlay) {
-        videoElement.play().catch(error => console.error("Autoplay failed:", error));
-      } else {
-        videoElement.pause();
-      }
+      // Section 5.1: User Gesture Requirement for Playback
+      // Relying on the `autoplay` and `muted` attributes directly on the <video> tag
+      // for initial playback, which is more robust than programmatic play() in useEffect.
+      // The `play()` and `pause()` calls triggered by user interaction (clicks) remain.
+      // No programmatic `videoElement.play()` here; let the HTML attribute handle it.
+      // The state (`isPlaying`) will be updated by the 'play' event listener.
     }
 
     return () => {
@@ -323,7 +318,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         videoElement.removeEventListener('ended', handleEnded);
       }
     };
-  }, [autoPlay, handlePlay, handlePause, handleTimeUpdate, handleLoadedMetadata, handleVolumeChange, handleEnded]);
+  }, [handlePlay, handlePause, handleTimeUpdate, handleLoadedMetadata, handleVolumeChange, handleEnded]); // Removed autoPlay from dependencies as it's now a direct attribute
 
   // Fullscreen change listener
   useEffect(() => {
@@ -335,14 +330,20 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   }, []);
 
   // Control functions
-  const togglePlayPause = useCallback(() => {
+  const togglePlayPause = useCallback(async () => {
+    // Section 5.1: User Gesture Requirement for Playback
+    // Play/pause is triggered by user click, satisfying gesture requirement.
     if (isInterruptActive) return; // Prevent play/pause when interrupt is active
 
     if (videoRef.current) {
       if (isPlaying) {
-        videoRef.current.pause();
+        await videoRef.current.pause();
       } else {
-        videoRef.current.play().catch(error => console.error("Play failed:", error));
+        await videoRef.current.play().catch(error => {
+          // Section 5.1: User Gesture Requirement for Playback
+          // Catch potential errors if play() is called without proper context (though unlikely here due to user interaction)
+          console.error("Failed to play video via user interaction:", error);
+        });
       }
     }
   }, [isPlaying, isInterruptActive]);
@@ -380,6 +381,9 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       if (document.fullscreenElement) {
         document.exitFullscreen();
       } else {
+        // Section 5.2: Fullscreen API Limitations
+        // Attempt to enter fullscreen, catch and log any errors that might occur
+        // due to browser restrictions or user settings.
         playerContainerRef.current.requestFullscreen().catch(err => {
           console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
         });
@@ -424,6 +428,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     setIsInterruptActive(false);
     setCurrentInterrupt(null);
     if (videoRef.current) {
+      // Section 5.1: User Gesture Requirement for Playback
+      // Resuming play after an interrupt, also initiated by user interaction.
       videoRef.current.play().catch(error => console.error("Resume play failed:", error));
     }
   }, []);
@@ -446,10 +452,12 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         ref={videoRef}
         src={src}
         loop={loop}
-        preload="metadata" // Load enough to get duration
+        autoPlay={autoPlay} // Section 5.1: User Gesture Requirement for Playback - now using HTML attribute
+        muted={muted}       // Section 5.1: User Gesture Requirement for Playback - now using HTML attribute
+        preload="metadata" // Section 5.3: `preload="metadata"` Attribute for efficient loading
         title={title}
         // Controls are handled by custom UI, so native controls are off
-        controls={false}
+        controls={false} // Section 5.4: `controls={false}` to use custom UI
       />
 
       {isInterruptActive && currentInterrupt && (
@@ -512,10 +520,10 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             {isPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play'}
           </Button>
 
-          {/* Volume Control */}
+          {/* Volume Control */
+          /* Note: Volume control and mute/unmute are user-driven, satisfying gesture requirements for audio. */}
           <VolumeControl>
-            <Button variant="icon" size="sm" onClick={(e: any) => { e.stopPropagation(); toggleMute(); }}
-              style={{ color: '#fff' }} disabled={isInterruptActive}>
+            <Button variant="icon" style={{ minWidth: '32px', color: '#fff' }} size="sm" onClick={(e: any) => { e.stopPropagation(); toggleMute(); }} disabled={isInterruptActive}>
               {isMuted || volume === 0 ? 'fa-solid fa-volume-mute' : (volume > 0.5 ? 'fa-solid fa-volume-up' : 'fa-solid fa-volume-down')}
             </Button>
             <Slider
@@ -548,3 +556,5 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     </VideoPlayerContainer>
   );
 };
+
+export default VideoPlayer;
