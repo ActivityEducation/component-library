@@ -27,6 +27,7 @@ export * from './components/Editor';
 export * from './components/Chart';
 export * from './components/Transcript';
 export * from './components/Editor/FlashcardModel';
+export * from './components/Flashcard';
 
 // Widgets
 export * from './widgets/ObjectiveProgress';
