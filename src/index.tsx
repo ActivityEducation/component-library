@@ -26,6 +26,7 @@ export * from './components/VideoPlayer';
 export * from './components/Editor';
 export * from './components/Chart';
 export * from './components/Transcript';
+export * from './components/Editor/FlashcardModel';
 
 // Widgets
 export * from './widgets/ObjectiveProgress';
@@ -36,7 +37,3 @@ export * from './theme';
 // Export Emotion's ThemeProvider, which is essential for consuming applications
 // to provide the theme context to AscendUCore components.
 export * from '@emotion/react';
-
-// You might also want to export the TypeScript type for your theme if needed
-// import type { Theme } from '@emotion/react';
-// export type { Theme };

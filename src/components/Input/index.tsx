@@ -90,6 +90,7 @@ const InputWrapper = styled.div<{ isFocused: boolean; hasValue: boolean | null; 
 // Styled label for the input field
 const Label = styled.label<{ isFloating: boolean | null; isFocused: boolean; error: boolean; disabled: boolean; hasLeadingAdornment: boolean }>`
   position: absolute;
+
   /* Initial left position: considers leading adornment */
   left: ${(props) => {
     // Calculate the space taken by a 'md' size icon (20px) plus its horizontal padding (2 * theme.spacing.sm = 16px)
@@ -107,6 +108,7 @@ const Label = styled.label<{ isFloating: boolean | null; isFocused: boolean; err
   transition: all 0.2s ease-in-out, left 0.2s ease-in-out; /* Add left to transition */
   pointer-events: none; // Allow clicks to pass through to input
   background-color: ${(props) => props.theme.colors.background.surface};
+  border-radius: ${(props) => props.theme.borderRadius.md};
   padding: 0 4px; // Padding for the "notch" effect
 
   ${(props) =>
