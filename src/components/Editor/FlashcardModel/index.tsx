@@ -16,7 +16,7 @@ import { FieldDefinitionPanel } from "./FieldDefinitionPanel";
 interface EduFieldDefinition {
   id: string;
   name: string;
-  type: "text" | "image" | "audio";
+  type: 'text' | 'image' | 'audio' | 'icon';
 }
 
 interface EduFieldLayout {

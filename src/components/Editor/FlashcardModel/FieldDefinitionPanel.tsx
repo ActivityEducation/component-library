@@ -1,6 +1,6 @@
 // src/components/Editor/FlashcardModel/FieldDefinitionPanel.tsx
 import React, { useState } from 'react';
-import { Button, Card, Icon, Input, Select, Option, theme } from '../../../';
+import { Button, Icon, Input, Select, Option, theme } from '../../../';
 
 // --- Type Definitions ---
 interface EduFieldDefinition {
