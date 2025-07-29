@@ -1,12 +1,12 @@
 // src/components/Editor/FlashcardModel/FieldDefinitionPanel.tsx
 import React, { useState } from 'react';
-import { Button, Icon, Input, Select, Option, theme } from '../../../';
+import { Button, Card, Icon, Input, Select, Option, theme } from '../../../';
 
 // --- Type Definitions ---
 interface EduFieldDefinition {
   id: string;
   name: string;
-  type: 'text' | 'image' | 'audio';
+  type: 'text' | 'image' | 'audio' | 'icon';
 }
 
 interface FieldDefinitionPanelProps {
@@ -20,7 +20,7 @@ interface FieldDefinitionPanelProps {
  */
 export const FieldDefinitionPanel: React.FC<FieldDefinitionPanelProps> = ({ fields, setFields, readOnly }) => {
   const [newFieldName, setNewFieldName] = useState('');
-  const [newFieldType, setNewFieldType] = useState<'text' | 'image' | 'audio'>('text');
+  const [newFieldType, setNewFieldType] = useState<'text' | 'image' | 'audio' | 'icon'>('text');
 
   const handleAddField = () => {
     if (newFieldName.trim() && !readOnly) {
@@ -41,7 +41,7 @@ export const FieldDefinitionPanel: React.FC<FieldDefinitionPanelProps> = ({ fiel
     <div>
       <h3 style={theme.typography.h5}>Fields</h3>
       {!readOnly && (
-        <div style={{ marginBottom: theme.spacing.md }}>
+        <>
           <Input
             label="Field Name"
             value={newFieldName}
@@ -56,16 +56,14 @@ export const FieldDefinitionPanel: React.FC<FieldDefinitionPanelProps> = ({ fiel
             <Option value="text">Text</Option>
             <Option value="image">Image</Option>
             <Option value="audio">Audio</Option>
+            <Option value="icon">Icon</Option>
           </Select>
           <Button onClick={handleAddField} variant="primary" size="sm" style={{ marginTop: theme.spacing.md, width: '100%' }}>
             Add Field
           </Button>
-        </div>
+        </>
       )}
-      {!readOnly && (
       <h4 style={theme.typography.h6}>Available Fields</h4>
-      )}
-      <div>
       {fields.length > 0 ? (
         fields.map((field) => (
           <div
@@ -76,7 +74,6 @@ export const FieldDefinitionPanel: React.FC<FieldDefinitionPanelProps> = ({ fiel
             }}
             style={{
               padding: theme.spacing.sm,
-              backgroundColor: theme.colors.background.default,
               border: `1px solid ${theme.colors.border.default}`,
               borderRadius: theme.borderRadius.sm,
               marginBottom: theme.spacing.xs,
@@ -97,7 +94,6 @@ export const FieldDefinitionPanel: React.FC<FieldDefinitionPanelProps> = ({ fiel
       ) : (
         <p style={theme.typography.caption}>No fields defined.</p>
       )}
-      </div>
     </div>
   );
 };
