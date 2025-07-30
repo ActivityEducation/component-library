@@ -121,9 +121,39 @@ const CheckboxIndicator = styled.div<Pick<CheckboxProps, 'checked' | 'indetermin
 `;
 
 /**
- * A Checkbox component for the AscendUCore Design System.
- * Allows users to select one or more options. Supports checked, unchecked,
- * indeterminate, and disabled states.
+ * The **Checkbox** component allows users to select one or more options from a set.
+ * It provides a custom visual indicator while maintaining the accessibility and
+ * native behavior of a standard HTML checkbox input. Checkboxes are typically
+ * used in groups or individually to represent binary choices or multiple selections.
+ *
+ * ```typescript
+ * import { Checkbox } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * A standardized `Checkbox` component is essential for consistent form inputs
+ * and interactive elements across an application. It ensures a uniform look and
+ * feel, contributing to a cohesive user experience. By providing a custom visual
+ * indicator linked to a hidden native input, it maintains full accessibility for
+ * users relying on assistive technologies. Its support for checked, unchecked,
+ * indeterminate, and disabled states makes it versatile for a wide range of
+ * UI scenarios, from simple toggles to "select all" functionalities.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** a `Checkbox` component is rendered, **THEN** it should display a
+ * custom square indicator and an associated `label`.
+ * - **GIVEN** `checked` prop is true, **THEN** the checkbox indicator should display
+ * a distinct checked state (e.g., a checkmark).
+ * - **GIVEN** `indeterminate` prop is true, **THEN** the checkbox indicator should
+ * display a distinct indeterminate state (e.g., a dash), visually indicating a mixed selection.
+ * - **GIVEN** `disabled` prop is true, **THEN** the checkbox and its label should
+ * be visually disabled and not interactive.
+ * - **WHEN** the checkbox or its label is clicked (and not disabled), **THEN** its
+ * checked state should toggle, and the `onChange` callback should be triggered.
+ * - **WHEN** the checkbox receives focus (e.g., via keyboard navigation), **THEN**
+ * it should display a clear focus indicator.
+ *
+ * ## Example & Props
  */
 export const Checkbox: React.FC<CheckboxProps> = ({
   label,

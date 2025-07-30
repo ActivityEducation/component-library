@@ -101,9 +101,39 @@ const RadioIndicator = styled.div<Pick<RadioProps, 'checked' | 'disabled'>>`
 `;
 
 /**
- * A Radio component for the AscendUCore Design System.
- * Allows users to select a single option from a set. Supports checked and disabled states.
- * It should typically be used within a `RadioGroup` for proper functionality and accessibility.
+ * The **Radio** component allows users to select a single option from a set of mutually
+ * exclusive choices. It provides a custom visual indicator while maintaining the
+ * accessibility and native behavior of a standard HTML radio input. Radios are typically
+ * used in groups to present a clear selection of options.
+ *
+ * ```typescript
+ * import { Radio } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * A standardized `Radio` component ensures consistency in form inputs across the
+ * application, contributing to a cohesive user experience. It improves accessibility
+ * by correctly linking the visual indicator to a hidden native input, allowing assistive
+ * technologies to interpret the control correctly. By encapsulating styling and basic
+ * interaction logic, it simplifies form development and promotes reusability.
+ * Its support for checked and disabled states provides flexibility for various form
+ * and interaction scenarios.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** a `Radio` component is rendered, **THEN** it should display a custom
+ * circular indicator and an associated `label`.
+ * - **GIVEN** `checked` prop is true, **THEN** the radio indicator should display
+ * a distinct checked state (e.g., a filled inner circle).
+ * - **GIVEN** `disabled` prop is true, **THEN** the radio button and its label
+ * should be visually disabled and not interactive.
+ * - **WHEN** the radio button or its label is clicked (and not disabled), **THEN**
+ * its checked state should toggle, and the `onChange` callback should be triggered.
+ * - **GIVEN** multiple `Radio` components share the same `name` prop, **THEN**
+ * only one radio button within that group should be selectable at a time.
+ * - **WHEN** the radio button receives focus (e.g., via keyboard navigation), **THEN**
+ * it should display a clear focus indicator.
+ *
+ * ## Example & Props
  */
 export const Radio: React.FC<RadioProps> = ({
   label,

@@ -1,22 +1,27 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import styled from '@emotion/styled';
-import type { SerializedStyles } from '@emotion/react';
+// index.tsx
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import styled from "@emotion/styled";
+import type { SerializedStyles } from "@emotion/react";
 
 // Import necessary components from the UI Kit
-import { Button } from '../Button';
-import { Slider } from '../Slider';
-import { ProgressBar } from '../ProgressBar';
-import { Card } from '../Card'; // Import Card for interrupt content
-import { theme } from '../../theme'; // Import theme for styling
+import { Button } from "../Button";
+import { Slider } from "../Slider";
+import { ProgressBar } from "../ProgressBar";
+import { Card } from "../Card";
+import { theme } from "../../theme";
+
+// --- Utility Functions ---
 
 // Helper function to format time (e.g., 120 seconds -> 02:00)
 const formatTime = (seconds: number): string => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = Math.floor(seconds % 60);
-  const paddedMinutes = String(minutes).padStart(2, '0');
-  const paddedSeconds = String(remainingSeconds).padStart(2, '0');
+  const paddedMinutes = String(minutes).padStart(2, "0");
+  const paddedSeconds = String(remainingSeconds).padStart(2, "0");
   return `${paddedMinutes}:${paddedSeconds}`;
 };
+
+// --- Interfaces ---
 
 // Interface for interactive video interrupts
 export interface VideoInterrupt {
@@ -26,56 +31,44 @@ export interface VideoInterrupt {
 }
 
 // Define the props interface for the VideoPlayer component
-interface VideoPlayerProps extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * The URL of the video source.
-   */
+// We explicitly omit the default onTimeUpdate and onVolumeChange from HTMLAttributes to avoid conflicts
+interface VideoPlayerProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onTimeUpdate' | 'onVolumeChange'> { // Explicitly OMIT onTimeUpdate and onVolumeChange
   src: string;
-  /**
-   * The title of the video, used for accessibility and display.
-   */
   title?: string;
-  /**
-   * If true, the video will start playing automatically.
-   * @default false
-   */
   autoPlay?: boolean;
-  /**
-   * If true, the video will be muted.
-   * @default false
-   */
   muted?: boolean;
-  /**
-   * If true, the video will loop after ending.
-   */
   loop?: boolean;
-  /**
-   * An array of interactive interrupt elements to display at specific timestamps.
-   */
   interrupts?: VideoInterrupt[];
-  /**
-   * URL for a placeholder image to display before the video loads or when paused.
-   */
   placeholderImage?: string;
-  /**
-   * Optional Emotion `css` prop for additional custom styles.
-   */
   css?: SerializedStyles;
+  
+  // NEW: Callback props for state changes
+  onPlay?: () => void;
+  onPause?: () => void;
+  onPlayerVolumeChange?: (volume: number, isMuted: boolean) => void; // Renamed to avoid clash
+  onPlayerTimeUpdate?: (currentTime: number, duration: number) => void; // Custom name
+  onFullScreenChange?: (isFullScreen: boolean) => void;
+  onInterruptActive?: (interrupt: VideoInterrupt) => void;
+  onInterruptDismiss?: () => void;
+  onEnded?: () => void;
 }
 
-// Styled container for the entire video player
+// --- Styled Components ---
+
 const VideoPlayerContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 800px; // Max width for the player, adjust as needed
-  background-color: #000; // Black background for video area
+  max-width: 800px;
+  background-color: #000;
   border-radius: ${(props) => props.theme.borderRadius.md};
-  overflow: hidden; // Ensures video and controls stay within rounded corners
+  overflow: hidden;
   box-shadow: ${(props) => props.theme.shadows.lg};
-  aspect-ratio: 16 / 9; // Maintain 16:9 aspect ratio
+  aspect-ratio: 16 / 9;
   display: flex;
   justify-content: center;
   align-items: center;
+  object-fit: contain;
 
   // When controls are visible, ensure they are on top
   &:hover .controls-overlay {
@@ -83,295 +76,359 @@ const VideoPlayerContainer = styled.div`
   }
 `;
 
-// Styled video element
 const StyledVideo = styled.video`
   width: 100%;
   height: 100%;
-  display: block; // Remove extra space below video
-  object-fit: contain; // Ensure video fits within bounds without cropping
-  background-color: black; // Fallback background if video doesn't load
+  display: block;
+  object-fit: contain;
+  background-color: black;
 `;
 
-// Styled image for the placeholder
 const PlaceholderImage = styled.img`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; // Cover the entire player area
-  z-index: 1; // Below controls, above video when video is paused/not playing
+  object-fit: cover;
+  z-index: 1;
 `;
 
-// Overlay for controls, appears on hover/interaction
 const ControlsOverlay = styled.div<{ show: boolean }>`
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100%; // Take full height to capture mouse events
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
   opacity: ${(props) => (props.show ? 1 : 0)};
   transition: opacity 0.3s ease-in-out;
-  pointer-events: ${(props) => (props.show ? 'auto' : 'none')}; // Allow interaction only when visible
-  z-index: 2; // Above video and placeholder image
+  pointer-events: ${(props) => (props.show ? "auto" : "none")};
+  z-index: 2;
 `;
 
-// Container for the bottom controls (play/pause, volume, time, fullscreen)
 const BottomControls = styled.div`
   display: flex;
   align-items: center;
-  padding: ${(props) => props.theme.spacing.sm} ${(props) => props.theme.spacing.lg};
+  padding: ${(props) => props.theme.spacing.sm}
+    ${(props) => props.theme.spacing.lg};
   gap: ${(props) => props.theme.spacing.md};
-  color: #fff; // White text for controls
-  flex-wrap: wrap; // Allow controls to wrap on small screens
+  color: #fff;
+  flex-wrap: wrap;
 `;
 
-// Styled component for the current time and duration display
 const TimeDisplay = styled.span`
   font-family: ${(props) => props.theme.typography.fontFamily};
   font-size: ${(props) => props.theme.typography.bodySmall.fontSize};
   color: #fff;
-  white-space: nowrap; // Prevent time from wrapping
+  white-space: nowrap;
 `;
 
-// Styled container for the volume slider
 const VolumeControl = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: ${(props) => props.theme.spacing.md};
-  width: 120px; // Fixed width for volume slider
-  flex-shrink: 0; // Prevent shrinking
+  width: 120px;
+  flex-shrink: 0;
 `;
 
-// Styled overlay for interrupt content
 const InterruptOverlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8); // Dark overlay
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10; // Above video and controls
+  z-index: 10;
   padding: ${(props) => props.theme.spacing.xl};
 
-  // Ensure card inside interrupt overlay is responsive
   & > div {
-    max-width: 90%; // Limit card width
-    max-height: 90%; // Limit card height
-    overflow-y: auto; // Allow scrolling if content is too large
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
   }
 `;
 
-// Styled container for the progress bar and its markers
 const ProgressBarWrapper = styled.div`
   position: relative;
   width: calc(100% - 20px);
   margin-inline: auto;
-  height: ${(props) => props.theme.spacing.sm}; /* Same height as progress bar */
+  height: ${(props) => props.theme.spacing.sm};
   cursor: pointer;
 `;
 
-// Styled component for the interrupt indicator on the progress bar
 const InterruptMarker = styled.div<{ position: number }>`
   position: absolute;
   top: 50%;
   left: ${(props) => props.position}%;
   transform: translate(-50%, -50%);
-  width: 8px; // Size of the marker dot
+  width: 8px;
   height: 8px;
-  background-color: ${(props) => props.theme.colors.secondary['40']}; // Accent color for markers
+  background-color: ${(props) => props.theme.colors.secondary["40"]};
   border-radius: ${(props) => props.theme.borderRadius.full};
-  z-index: 5; // Above the progress bar fill, below the thumb if any
-  pointer-events: none; // Do not interfere with progress bar clicks
+  z-index: 5;
+  pointer-events: none;
 `;
 
 /**
- * A custom VideoPlayer component for the AscendUCore Design System.
- * Provides a responsive video player with custom controls for playback,
- * volume, progress, and fullscreen, integrating other UI Kit components.
- * Now includes support for interactive interrupt elements at specific timestamps,
- * visually indicated on the progress bar, and a placeholder image.
+ * The **VideoPlayer** is a comprehensive and interactive component designed for embedding video content within the learning platform. It goes beyond standard playback by integrating features specifically for educational purposes, such as interactive interrupts. This component ensures a consistent, accessible, and engaging video experience for all users, abstracting the complexities of the HTML5 video API into a simple, prop-driven interface built with components from our own design system.
+ *
+ * ```typescript
+ * import { VideoPlayer } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * For the application, the `VideoPlayer` serves as a cornerstone for delivering dynamic educational content. By providing a standardized player, we ensure a uniform look, feel, and functionality across all courses and modules, which reinforces the platform's professional and cohesive identity. The component's most significant feature, **interactive interrupts**, transforms video from a passive medium into an active learning tool. This allows instructional designers to embed questions, key takeaways, or supplementary materials directly into the video timeline, creating opportunities for formative assessment and deeper engagement. Encapsulating this functionality within a single, reusable component drastically simplifies development and content creation, allowing for rapid deployment of rich, interactive video lessons.
+ *
+ * From the end-user's perspective, the `VideoPlayer` offers a familiar and intuitive interface that minimizes cognitive load and allows them to focus on the learning material. The custom controls are clear and accessible, and the visual markers for interrupts on the progress bar set clear expectations, letting learners know when interaction points are coming up. This feature enhances the learning process by breaking up long videos, reinforcing key concepts at crucial moments, and providing immediate opportunities for self-assessment. The inclusion of a placeholder image and smooth transitions creates a polished, high-quality experience that builds user confidence and makes the learning journey more engaging and effective.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** a user views a page with the `VideoPlayer`, **WHEN** the video is playing, **THEN** the controls should automatically hide after 3 seconds of mouse inactivity.
+ * - **GIVEN** a user views a video with interrupts defined, **WHEN** the video playback time reaches an interrupt's timestamp, **THEN** the video must pause and the interrupt's content must be displayed in an overlay `Card`.
+ * - **GIVEN** an interrupt is displayed, **WHEN** the user clicks the "Continue" button, **THEN** the overlay must disappear and the video must resume playing.
+ * - **GIVEN** a user hovers over the progress bar, **WHEN** interrupts are defined, **THEN** markers should be visible on the progress bar at the corresponding timestamps.
+ * - **GIVEN** the `placeholderImage` prop is provided, **WHEN** the video has not yet been played, **THEN** the placeholder image must be visible.
+ * - **GIVEN** the video is playing and the user pauses it, **THEN** the placeholder image should become visible again if it was provided.
+ * - **GIVEN** a user clicks anywhere on the video viewport, **THEN** the video's play/pause state should toggle accordingly.
+ * - **GIVEN** a user clicks the fullscreen button, **THEN** the player should attempt to enter or exit fullscreen mode.
+ *
+ *
+ * ## Example & Props
  */
 export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   src,
-  title = 'Video Player',
+  title = "Video Player",
   autoPlay = false,
   loop = false,
   muted = false,
-  interrupts = [], // Default to empty array
-  placeholderImage, // New prop
+  interrupts = [],
+  placeholderImage,
+  onPlay,
+  onPause,
+  onPlayerVolumeChange,
+  onPlayerTimeUpdate,
+  onFullScreenChange,
+  onInterruptActive,
+  onInterruptDismiss,
+  onEnded,
   ...props
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const playerContainerRef = useRef<HTMLDivElement>(null); // Ref for the main player container
+  const playerContainerRef = useRef<HTMLDivElement>(null);
 
-  const [isPlaying, setIsPlaying] = useState(autoPlay);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(muted ? 0 : 1); // Volume from 0 to 1
-  const [isMuted, setIsMuted] = useState(muted);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [showControls, setShowControls] = useState(true); // State to auto-hide controls
-  const [hasPlayed, setHasPlayed] = useState(false); // Track if video has started playing at least once
+  // --- State Management ---
+  const [playerState, setPlayerState] = useState({
+    isPlaying: autoPlay,
+    currentTime: 0,
+    duration: 0,
+    volume: muted ? 0 : 1,
+    isMuted: muted,
+    isFullScreen: false,
+    showControls: true,
+    hasPlayed: false,
+    currentInterrupt: null as VideoInterrupt | null,
+    isInterruptActive: false,
+  });
 
-  // States for interrupt functionality
-  const [currentInterrupt, setCurrentInterrupt] = useState<VideoInterrupt | null>(null);
-  const [isInterruptActive, setIsInterruptActive] = useState(false);
-  // Using a Set to track seen interrupts for the current video session
   const seenInterrupts = useRef(new Set<string>());
-
-  // Timer for auto-hiding controls
   const controlsHideTimeout = useRef<number | null>(null);
 
-  // Event handlers for video element
+  // Destructure playerState for easier access
+  const {
+    isPlaying,
+    currentTime,
+    duration,
+    volume,
+    isMuted,
+    isFullScreen,
+    showControls,
+    hasPlayed,
+    currentInterrupt,
+    isInterruptActive,
+  } = playerState;
+
+  // --- Event Handlers (memoized with useCallback) ---
+
   const handlePlay = useCallback(() => {
-    setIsPlaying(true);
-    setHasPlayed(true); // Mark as played once
-  }, []);
-  const handlePause = useCallback(() => setIsPlaying(false), []);
+    setPlayerState((prevState) => ({ ...prevState, isPlaying: true, hasPlayed: true }));
+    onPlay?.();
+  }, [onPlay]);
+
+  const handlePause = useCallback(() => {
+    setPlayerState((prevState) => ({ ...prevState, isPlaying: false }));
+    onPause?.();
+  }, [onPause]);
 
   const handleTimeUpdate = useCallback(() => {
-    if (videoRef.current) {
-      const newCurrentTime = videoRef.current.currentTime;
-      setCurrentTime(newCurrentTime);
+    if (!videoRef.current) return;
 
-      // Check for interrupts
-      if (!isInterruptActive) { // Only check if no interrupt is currently active
-        for (const interrupt of interrupts) {
-          // Trigger interrupt if current time is at or slightly past the timestamp
-          // and it hasn't been seen yet in this session.
-          // Using a small buffer (e.g., 0.5s) to ensure it triggers even if timeupdate is not exact
-          if (
-            newCurrentTime >= interrupt.timestampSeconds &&
-            newCurrentTime < interrupt.timestampSeconds + 0.5 &&
-            !seenInterrupts.current.has(interrupt.id)
-          ) {
-            videoRef.current.pause();
-            setCurrentInterrupt(interrupt);
-            setIsInterruptActive(true);
-            seenInterrupts.current.add(interrupt.id); // Mark as seen
-            break; // Only trigger one interrupt at a time
-          }
+    const newCurrentTime = videoRef.current.currentTime;
+    setPlayerState((prevState) => ({ ...prevState, currentTime: newCurrentTime }));
+    onPlayerTimeUpdate?.(newCurrentTime, playerState.duration);
+
+    // Check for interrupts
+    if (!isInterruptActive) {
+      for (const interrupt of interrupts) {
+        if (
+          newCurrentTime >= interrupt.timestampSeconds &&
+          newCurrentTime < interrupt.timestampSeconds + 0.5 &&
+          !seenInterrupts.current.has(interrupt.id)
+        ) {
+          videoRef.current.pause();
+          setPlayerState((prevState) => ({
+            ...prevState,
+            currentInterrupt: interrupt,
+            isInterruptActive: true,
+          }));
+          seenInterrupts.current.add(interrupt.id);
+          onInterruptActive?.(interrupt);
+          break; // Only trigger one interrupt at a time
         }
       }
     }
-  }, [interrupts, isInterruptActive]);
+  }, [interrupts, isInterruptActive, onPlayerTimeUpdate, onInterruptActive, playerState.duration]);
 
   const handleLoadedMetadata = useCallback(() => {
     if (videoRef.current) {
-      setDuration(videoRef.current.duration);
-      // Set initial volume based on muted prop or default
-      // Note: The `muted` attribute is now handled directly on the StyledVideo component.
-      // This ensures the browser respects the initial mute state for autoplay if applicable.
+      setPlayerState((prevState) => ({
+        ...prevState,
+        duration: videoRef.current!.duration,
+      }));
       videoRef.current.volume = muted ? 0 : 1;
     }
   }, [muted]);
+
   const handleVolumeChange = useCallback(() => {
     if (videoRef.current) {
-      setVolume(videoRef.current.volume);
-      setIsMuted(videoRef.current.muted);
+      const newVolume = videoRef.current.volume;
+      const newIsMuted = videoRef.current.muted;
+      setPlayerState((prevState) => ({
+        ...prevState,
+        volume: newVolume,
+        isMuted: newIsMuted,
+      }));
+      onPlayerVolumeChange?.(newVolume, newIsMuted);
     }
-  }, []);
+  }, [onPlayerVolumeChange]);
+
   const handleEnded = useCallback(() => {
-    setIsPlaying(false);
+    setPlayerState((prevState) => ({ ...prevState, isPlaying: false }));
     if (videoRef.current && !loop) {
-      videoRef.current.currentTime = 0; // Reset to start if not looping
+      videoRef.current.currentTime = 0;
     }
-    seenInterrupts.current.clear(); // Clear seen interrupts when video ends
-    setHasPlayed(false); // Reset hasPlayed state when video ends
-  }, [loop]);
+    seenInterrupts.current.clear();
+    setPlayerState((prevState) => ({ ...prevState, hasPlayed: false }));
+    onEnded?.();
+  }, [loop, onEnded]);
+
+  const handleFullscreenChange = useCallback(() => {
+    const newIsFullScreen = document.fullscreenElement === playerContainerRef.current;
+    setPlayerState((prevState) => ({
+      ...prevState,
+      isFullScreen: newIsFullScreen,
+    }));
+    onFullScreenChange?.(newIsFullScreen);
+  }, [onFullScreenChange]);
+
+  // --- Effects ---
 
   // Attach/detach video event listeners
   useEffect(() => {
     const videoElement = videoRef.current;
-    if (videoElement) {
-      videoElement.addEventListener('play', handlePlay);
-      videoElement.addEventListener('pause', handlePause);
-      videoElement.addEventListener('timeupdate', handleTimeUpdate);
-      videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
-      videoElement.addEventListener('volumechange', handleVolumeChange);
-      videoElement.addEventListener('ended', handleEnded);
+    if (!videoElement) return;
 
-      // Section 5.1: User Gesture Requirement for Playback
-      // Relying on the `autoplay` and `muted` attributes directly on the <video> tag
-      // for initial playback, which is more robust than programmatic play() in useEffect.
-      // The `play()` and `pause()` calls triggered by user interaction (clicks) remain.
-      // No programmatic `videoElement.play()` here; let the HTML attribute handle it.
-      // The state (`isPlaying`) will be updated by the 'play' event listener.
-    }
+    videoElement.addEventListener("play", handlePlay);
+    videoElement.addEventListener("pause", handlePause);
+    videoElement.addEventListener("timeupdate", handleTimeUpdate);
+    videoElement.addEventListener("loadedmetadata", handleLoadedMetadata);
+    videoElement.addEventListener("volumechange", handleVolumeChange);
+    videoElement.addEventListener("ended", handleEnded);
 
     return () => {
-      if (videoElement) {
-        videoElement.removeEventListener('play', handlePlay);
-        videoElement.removeEventListener('pause', handlePause);
-        videoElement.removeEventListener('timeupdate', handleTimeUpdate);
-        videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        videoElement.removeEventListener('volumechange', handleVolumeChange);
-        videoElement.removeEventListener('ended', handleEnded);
-      }
+      videoElement.removeEventListener("play", handlePlay);
+      videoElement.removeEventListener("pause", handlePause);
+      videoElement.removeEventListener("timeupdate", handleTimeUpdate);
+      videoElement.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      videoElement.removeEventListener("volumechange", handleVolumeChange);
+      videoElement.removeEventListener("ended", handleEnded);
     };
-  }, [handlePlay, handlePause, handleTimeUpdate, handleLoadedMetadata, handleVolumeChange, handleEnded]); // Removed autoPlay from dependencies as it's now a direct attribute
+  }, [
+    handlePlay,
+    handlePause,
+    handleTimeUpdate,
+    handleLoadedMetadata,
+    handleVolumeChange,
+    handleEnded,
+  ]);
 
   // Fullscreen change listener
   useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullScreen(document.fullscreenElement === playerContainerRef.current);
-    };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
-  }, []);
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, [handleFullscreenChange]);
 
-  // Control functions
+  // Auto-hide controls logic
+  useEffect(() => {
+    if (!isPlaying || isFullScreen || isInterruptActive) {
+      setPlayerState((prevState) => ({ ...prevState, showControls: true }));
+      if (controlsHideTimeout.current) {
+        clearTimeout(controlsHideTimeout.current);
+      }
+    }
+  }, [isPlaying, isFullScreen, isInterruptActive]);
+
+  // --- Control Functions (memoized with useCallback) ---
+
   const togglePlayPause = useCallback(async () => {
-    // Section 5.1: User Gesture Requirement for Playback
-    // Play/pause is triggered by user click, satisfying gesture requirement.
-    if (isInterruptActive) return; // Prevent play/pause when interrupt is active
+    if (isInterruptActive) return;
 
     if (videoRef.current) {
       if (isPlaying) {
         await videoRef.current.pause();
       } else {
-        await videoRef.current.play().catch(error => {
-          // Section 5.1: User Gesture Requirement for Playback
-          // Catch potential errors if play() is called without proper context (though unlikely here due to user interaction)
+        await videoRef.current.play().catch((error) => {
           console.error("Failed to play video via user interaction:", error);
         });
       }
     }
   }, [isPlaying, isInterruptActive]);
 
-  const handleProgressSeek = useCallback((value: number) => {
-    if (videoRef.current) {
-      const newTime = (value / 100) * duration;
-      videoRef.current.currentTime = newTime;
-      setCurrentTime(newTime); // Update state immediately for smoother UI
-    }
-  }, [duration]);
+  const handleProgressSeek = useCallback(
+    (value: number) => {
+      if (videoRef.current) {
+        const newTime = (value / 100) * duration;
+        videoRef.current.currentTime = newTime;
+        setPlayerState((prevState) => ({ ...prevState, currentTime: newTime }));
+      }
+    },
+    [duration]
+  );
 
   const handleVolumeSliderChange = useCallback((value: number) => {
     if (videoRef.current) {
-      const newVolume = value / 100; // Convert 0-100 to 0-1
+      const newVolume = value / 100;
       videoRef.current.volume = newVolume;
-      setIsMuted(newVolume === 0); // Mute if volume is 0
+      // The state update and onVolumeChange prop call are already handled by the native 'volumechange' listener.
     }
   }, []);
 
   const toggleMute = useCallback(() => {
     if (videoRef.current) {
       videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-      // If unmuting from a previously 0 volume, set to a default (e.g., 0.5)
       if (isMuted && videoRef.current.volume === 0) {
         videoRef.current.volume = 0.5;
-        setVolume(0.5);
       }
     }
   }, [isMuted]);
@@ -381,69 +438,59 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       if (document.fullscreenElement) {
         document.exitFullscreen();
       } else {
-        // Section 5.2: Fullscreen API Limitations
-        // Attempt to enter fullscreen, catch and log any errors that might occur
-        // due to browser restrictions or user settings.
-        playerContainerRef.current.requestFullscreen().catch(err => {
-          console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        playerContainerRef.current.requestFullscreen().catch((err) => {
+          console.error(
+            `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+          );
         });
       }
     }
   }, []);
 
-  // Auto-hide controls logic
   const handleMouseMove = useCallback(() => {
-    setShowControls(true);
+    setPlayerState((prevState) => ({ ...prevState, showControls: true }));
     if (controlsHideTimeout.current) {
       clearTimeout(controlsHideTimeout.current);
     }
     controlsHideTimeout.current = setTimeout(() => {
-      if (isPlaying && !isFullScreen && !isInterruptActive) { // Only hide if playing, not fullscreen, and no interrupt
-        setShowControls(false);
+      if (isPlaying && !isFullScreen && !isInterruptActive) {
+        setPlayerState((prevState) => ({ ...prevState, showControls: false }));
       }
-    }, 3000) as any; // Hide after 3 seconds of inactivity
+    }, 3000) as any;
   }, [isPlaying, isFullScreen, isInterruptActive]);
 
   const handleMouseLeave = useCallback(() => {
     if (isPlaying && !isFullScreen && !isInterruptActive) {
-      setShowControls(false);
+      setPlayerState((prevState) => ({ ...prevState, showControls: false }));
     }
     if (controlsHideTimeout.current) {
       clearTimeout(controlsHideTimeout.current);
     }
   }, [isPlaying, isFullScreen, isInterruptActive]);
 
-  // Stop hiding controls when paused or on fullscreen or interrupt is active
-  useEffect(() => {
-    if (!isPlaying || isFullScreen || isInterruptActive) {
-      setShowControls(true);
-      if (controlsHideTimeout.current) {
-        clearTimeout(controlsHideTimeout.current);
-      }
-    }
-  }, [isPlaying, isFullScreen, isInterruptActive]);
-
-  // Dismiss interrupt and resume video
   const dismissInterrupt = useCallback(() => {
-    setIsInterruptActive(false);
-    setCurrentInterrupt(null);
+    setPlayerState((prevState) => ({
+      ...prevState,
+      isInterruptActive: false,
+      currentInterrupt: null,
+    }));
+    onInterruptDismiss?.();
     if (videoRef.current) {
-      // Section 5.1: User Gesture Requirement for Playback
-      // Resuming play after an interrupt, also initiated by user interaction.
-      videoRef.current.play().catch(error => console.error("Resume play failed:", error));
+      videoRef.current.play().catch((error) => console.error("Resume play failed:", error));
     }
-  }, []);
+  }, [onInterruptDismiss]);
+
+  // --- Render ---
 
   return (
     <VideoPlayerContainer
       ref={playerContainerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={togglePlayPause} // Click anywhere on player to play/pause
+      onClick={togglePlayPause}
       title={title}
       {...props}
     >
-      {/* Conditionally render placeholder image */}
       {placeholderImage && (!hasPlayed || !isPlaying) && (
         <PlaceholderImage src={placeholderImage} alt={`${title} placeholder`} />
       )}
@@ -452,31 +499,39 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         ref={videoRef}
         src={src}
         loop={loop}
-        autoPlay={autoPlay} // Section 5.1: User Gesture Requirement for Playback - now using HTML attribute
-        muted={muted}       // Section 5.1: User Gesture Requirement for Playback - now using HTML attribute
-        preload="metadata" // Section 5.3: `preload="metadata"` Attribute for efficient loading
-        title={title}
-        // Controls are handled by custom UI, so native controls are off
-        controls={false} // Section 5.4: `controls={false}` to use custom UI
+        autoPlay={autoPlay}
+        muted={muted}
+        preload="metadata"
+        controls={false}
       />
 
       {isInterruptActive && currentInterrupt && (
         <InterruptOverlay>
-          <Card style={{ maxWidth: '400px', width: '100%', textAlign: 'center' }}>
+          <Card
+            style={{ maxWidth: "400px", width: "100%", textAlign: "center" }}
+          >
             {currentInterrupt.content}
-            <Button variant="primary" onClick={(e: any) => { e.stopPropagation(); dismissInterrupt(); }}
-              style={{ marginTop: theme.spacing.md }}>
+            <Button
+              variant="primary"
+              onClick={(e: any) => {
+                e.stopPropagation();
+                dismissInterrupt();
+              }}
+              style={{ marginTop: theme.spacing.md }}
+              aria-label="Continue video playback"
+            >
               Continue
             </Button>
           </Card>
         </InterruptOverlay>
       )}
 
-      <ControlsOverlay show={showControls || !isPlaying || isFullScreen} className="controls-overlay">
-        {/* Progress Bar with Interrupt Markers */}
+      <ControlsOverlay
+        show={showControls || !isPlaying || isFullScreen}
+        className="controls-overlay"
+      >
         <ProgressBarWrapper
           onClick={(e) => {
-            // Prevent seeking when interrupt is active
             if (isInterruptActive) {
               e.stopPropagation();
               return;
@@ -492,18 +547,23 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           <ProgressBar
             value={(currentTime / duration) * 100 || 0}
             max={100}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           />
-          {/* Render interrupt markers */}
           {interrupts.map((interrupt) => {
-            const markerPosition = (interrupt.timestampSeconds / duration) * 100;
-            // Only render if duration is known and position is valid
-            if (duration > 0 && !isNaN(markerPosition) && isFinite(markerPosition)) {
+            const markerPosition =
+              (interrupt.timestampSeconds / duration) * 100;
+            if (
+              duration > 0 &&
+              !isNaN(markerPosition) &&
+              isFinite(markerPosition)
+            ) {
               return (
                 <InterruptMarker
                   key={interrupt.id}
                   position={markerPosition}
-                  title={`Interrupt at ${formatTime(interrupt.timestampSeconds)}`}
+                  title={`Interrupt at ${formatTime(
+                    interrupt.timestampSeconds
+                  )}`}
                 />
               );
             }
@@ -511,45 +571,73 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           })}
         </ProgressBarWrapper>
 
-
-        {/* Bottom Controls */}
         <BottomControls>
-          {/* Play/Pause Button */}
-          <Button variant="icon" size="sm" onClick={(e: any) => { e.stopPropagation(); togglePlayPause(); }}
-            style={{ color: '#fff' }} disabled={isInterruptActive}>
-            {isPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play'}
+          <Button
+            aria-label={isPlaying ? "pause" : "play"}
+            variant="icon"
+            size="sm"
+            onClick={(e: any) => {
+              e.stopPropagation();
+              togglePlayPause();
+            }}
+            style={{ color: "#fff" }}
+            disabled={isInterruptActive}
+          >
+            {isPlaying ? "fa-solid fa-pause" : "fa-solid fa-play"}
           </Button>
 
-          {/* Volume Control */
-          /* Note: Volume control and mute/unmute are user-driven, satisfying gesture requirements for audio. */}
           <VolumeControl>
-            <Button variant="icon" style={{ minWidth: '32px', color: '#fff' }} size="sm" onClick={(e: any) => { e.stopPropagation(); toggleMute(); }} disabled={isInterruptActive}>
-              {isMuted || volume === 0 ? 'fa-solid fa-volume-mute' : (volume > 0.5 ? 'fa-solid fa-volume-up' : 'fa-solid fa-volume-down')}
+            <Button
+              aria-label={
+                isMuted || volume === 0 ? "volume mute" : "volume up"
+              }
+              variant="icon"
+              style={{ minWidth: "32px", color: "#fff" }}
+              size="sm"
+              onClick={(e: any) => {
+                e.stopPropagation();
+                toggleMute();
+              }}
+              disabled={isInterruptActive}
+            >
+              {isMuted || volume === 0
+                ? "fa-solid fa-volume-mute"
+                : volume > 0.5
+                ? "fa-solid fa-volume-up"
+                : "fa-solid fa-volume-down"}
             </Button>
             <Slider
               min={0}
               max={100}
               step={1}
-              value={isMuted ? 0 : volume * 100} // Convert 0-1 to 0-100 for slider
+              value={isMuted ? 0 : volume * 100}
               onValueChange={handleVolumeSliderChange}
-              onClick={(e: any) => e.stopPropagation()} // Prevent player play/pause click
+              onClick={(e: any) => e.stopPropagation()}
               style={{ flexGrow: 1 }}
               disabled={isInterruptActive}
             />
           </VolumeControl>
 
-          {/* Current Time / Duration */}
           <TimeDisplay>
             {formatTime(currentTime)} / {formatTime(duration)}
           </TimeDisplay>
 
-          {/* Spacer to push fullscreen button to the right */}
           <div style={{ flexGrow: 1 }} />
 
-          {/* Fullscreen Button */}
-          <Button variant="icon" size="sm" onClick={(e: any) => { e.stopPropagation(); toggleFullScreen(); }}
-            style={{ color: '#fff' }} disabled={isInterruptActive}>
-            {isFullScreen ? 'fa-solid fa-compress-arrows-alt' : 'fa-solid fa-expand-arrows-alt'}
+          <Button
+            variant="icon"
+            size="sm"
+            onClick={(e: any) => {
+              e.stopPropagation();
+              toggleFullScreen();
+            }}
+            style={{ color: "#fff" }}
+            disabled={isInterruptActive}
+            aria-label={isFullScreen ? "Exit fullscreen" : "Enter fullscreen"}
+          >
+            {isFullScreen
+              ? "fa-solid fa-compress-arrows-alt"
+              : "fa-solid fa-expand-arrows-alt"}
           </Button>
         </BottomControls>
       </ControlsOverlay>

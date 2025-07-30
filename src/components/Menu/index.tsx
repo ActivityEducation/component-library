@@ -102,6 +102,35 @@ const TrailingContent = styled.div`
  * An individual, clickable option within a `Menu` component in the AscendUCore Design System.
  * Supports leading and trailing content (including Font Awesome icons, SVG URLs, inline SVGs),
  * and integrates with the theme for consistent styling.
+ *
+ * ```typescript
+ * import { MenuItem } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * The `MenuItem` component is a fundamental building block for dropdown menus,
+ * context menus, and navigation lists. It provides a standardized visual and
+ * interactive representation for individual actions or links. By supporting
+ * leading and trailing icons/content, it allows for rich and informative menu
+ * items, improving user comprehension and navigation efficiency. Its consistent
+ * styling and accessibility features ensure a uniform and inclusive experience
+ * across all menu-driven interactions in the application.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** a `MenuItem` is rendered, **THEN** it should display its `children`
+ * content.
+ * - **GIVEN** `leading` content is provided, **THEN** it should be displayed
+ * on the left side of the menu item.
+ * - **GIVEN** `trailing` content is provided, **THEN** it should be displayed
+ * on the right side of the menu item, typically for accelerators or secondary icons.
+ * - **WHEN** the `MenuItem` is clicked (and not disabled), **THEN** its `onClick`
+ * callback should be triggered.
+ * - **GIVEN** `disabled` is true, **THEN** the menu item should be visually disabled
+ * and not clickable.
+ * - **WHEN** the `MenuItem` is focused via keyboard, **THEN** it should display a
+ * clear focus indicator.
+ *
+ * ## Example & Props
  */
 export const MenuItem: React.FC<MenuItemProps> = ({
   children,
@@ -169,9 +198,43 @@ const StyledMenu = styled.div`
 `;
 
 /**
- * A Menu component for the AscendUCore Design System.
- * It displays a list of `MenuItem` components when triggered, and handles
- * open/close state, basic positioning relative to the trigger, and click-outside-to-close behavior.
+ * The **Menu** component displays a list of `MenuItem` components when triggered,
+ * providing a versatile solution for dropdowns, context menus, and overflow actions.
+ * It handles its open/close state (both controlled and uncontrolled), basic positioning
+ * relative to the trigger element, and the common "click outside to close" behavior.
+ *
+ * ```typescript
+ * import { Menu, MenuItem } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * A standardized `Menu` component is crucial for organizing actions and navigation
+ * in a compact and accessible way. It prevents UI clutter by hiding options until
+ * needed, improving the user experience for complex interfaces. By providing built-in
+ * state management, positioning logic, and accessibility features (like ARIA attributes
+ * and keyboard navigation), it simplifies the implementation of interactive menus
+ * across the application, ensuring consistency and reducing development effort.
+ * Its reliance on `MenuItem` children guarantees uniform styling for all menu options.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Menu` is rendered with a `trigger` and `MenuItem` children,
+ * **THEN** the menu should initially be closed.
+ * - **WHEN** the `trigger` element is clicked, **THEN** the menu dropdown should
+ * toggle its visibility.
+ * - **GIVEN** `open` prop is true, **THEN** the menu should be visible; otherwise,
+ * it should be hidden (controlled behavior).
+ * - **WHEN** the menu is open and a click occurs outside the menu or its trigger,
+ * **THEN** the menu should close.
+ * - **WHEN** a `MenuItem` within the open menu is clicked, **THEN** the menu should close.
+ * - **WHEN** the menu's open state changes, **THEN** the `onOpenChange` callback
+ * should be triggered with the new state.
+ * - **GIVEN** the menu is open, **THEN** it should be positioned correctly
+ * relative to its trigger, with basic viewport collision detection.
+ * - **GIVEN** the menu contains many items, **THEN** it should be vertically scrollable.
+ * - **WHEN** the menu is open, **THEN** keyboard navigation (ArrowUp, ArrowDown, Enter, Escape)
+ * should allow users to navigate and select menu items, and close the menu.
+ *
+ * ## Example & Props
  */
 export const Menu: React.FC<MenuProps> = ({
   trigger,

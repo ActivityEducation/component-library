@@ -172,8 +172,46 @@ const ContentAdornment = styled.div`
 `;
 
 /**
- * An Input component with an outlined appearance for the AscendUCore Design System.
- * Supports floating labels, helper text, error states, and leading/trailing content.
+ * The **Input** component provides a text input field with an outlined appearance.
+ * It supports a floating label, helper text, error states, and optional leading
+ * and trailing adornments (icons, text, or other React nodes). This component
+ * is designed to be highly customizable and accessible, providing clear visual
+ * feedback to the user.
+ *
+ * ```typescript
+ * import { Input } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * A standardized `Input` component is fundamental for any form-based interaction
+ * in a web application. It ensures consistency in data entry fields across the
+ * entire platform, contributing to a cohesive and intuitive user experience.
+ * By encapsulating complex styling (outlined appearance, floating label animation)
+ * and accessibility features (ARIA attributes, proper label association), it
+ * significantly reduces development effort and promotes reusability. The support
+ * for various states (focused, error, disabled) and adornments makes it versatile
+ * for a wide range of input needs.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Input` component is rendered, **THEN** it should display a
+ * text input field with an outlined border.
+ * - **GIVEN** a `label` prop is provided, **THEN** it should display a floating
+ * label that animates above the input field when focused or when it contains a value.
+ * - **GIVEN** `helperText` is provided, **THEN** it should display descriptive
+ * text below the input field.
+ * - **GIVEN** `error` is true and `errorMessage` is provided, **THEN** the input
+ * should display a distinct error state (e.g., red border) and the error message.
+ * - **GIVEN** `leading` content is provided, **THEN** it should be displayed
+ * on the left side of the input field.
+ * - **GIVEN** `trailing` content is provided, **THEN** it should be displayed
+ * on the right side of the input field.
+ * - **GIVEN** `disabled` is true, **THEN** the input field should be visually
+ * disabled and not interactive.
+ * - **WHEN** the input field receives focus, **THEN** it should display a clear
+ * focus indicator (e.g., a highlighted border/shadow).
+ * - **WHEN** the input value changes, **THEN** the `onChange` callback should be triggered.
+ *
+ * ## Example & Props
  */
 export const Input: React.FC<InputProps> = ({
   label,

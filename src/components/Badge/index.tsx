@@ -92,9 +92,36 @@ const StyledBadge = styled.span<Pick<BadgeProps, 'variant'>>`
 `;
 
 /**
- * A small, non-interactive Badge component for displaying short, important information
+ * A small, non-interactive **Badge** component for displaying short, important information
  * or status indicators in the AscendUCore Design System.
- * Supports various semantic color variants.
+ * It supports various semantic color variants, making it suitable for conveying status,
+ * counts, or labels in a concise visual manner.
+ *
+ * ```typescript
+ * import { Badge } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * Badges are highly effective for drawing attention to new information, indicating status,
+ * or displaying counts in a compact and visually distinct way. A standardized `Badge`
+ * component ensures consistency in these visual cues across the application, improving
+ * user comprehension and interface clarity. By providing predefined color `variant`s,
+ * it helps maintain a cohesive design language and simplifies the implementation of
+ * status indicators for developers. Its non-interactive nature ensures it's used
+ * purely for informational display.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Badge` component is rendered, **THEN** it should display its
+ * `children` content.
+ * - **GIVEN** `variant` is set to 'default', 'primary', 'secondary', 'tertiary',
+ * 'success', 'info', 'warning', or 'error', **THEN** the badge should apply the
+ * corresponding background and text colors.
+ * - **GIVEN** the badge content, **THEN** it should be displayed with uppercase
+ * text and a pill-like (fully rounded) shape.
+ * - **GIVEN** the badge, **THEN** it should be non-interactive (no hover effects,
+ * no cursor changes).
+ *
+ * ## Example & Props
  */
 export const Badge: React.FC<BadgeProps> = ({
   children,

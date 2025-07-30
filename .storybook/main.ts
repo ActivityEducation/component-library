@@ -5,17 +5,22 @@ const config = {
     "../src/docs/**/*.mdx", // New: Path for pure MDX documentation files
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)" // Existing: Path for CSF component stories
   ],
+
   addons: [
     "@chromatic-com/storybook",
     "@storybook/addon-a11y",
     "@storybook/addon-vitest",
     "@storybook/addon-docs",
+    '@storybook/addon-essentials', // Includes controls, actions, viewport, background
+    '@storybook/addon-interactions', // Essential for interaction testing
   ],
+
   docs: {
     // Ensuring autodocs only run for tagged stories
     autodocs: 'tag', // <--- Changed this line to 'tag'
     defaultName: 'Documentation',
   },
+
   framework: {
     name: "@storybook/react-vite",
     options: {
@@ -41,5 +46,9 @@ const config = {
       },
     },
   },
+
+  core: {
+    disableWhatsNewNotifications: true
+  }
 };
 export default config;

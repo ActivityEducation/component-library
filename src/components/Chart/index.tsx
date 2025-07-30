@@ -123,9 +123,43 @@ const EmptyChartContainer = styled.div`
 `;
 
 /**
- * A flexible Chart component for the AscendUCore Design System,
- * supporting line, bar, and pie charts using Recharts.
- * It provides basic styling, responsiveness, and empty state handling.
+ * A flexible **Chart** component for the AscendUCore Design System,
+ * supporting various data visualizations including line, bar, and pie charts
+ * using the Recharts library. It provides a responsive design, customizable
+ * colors, and handles empty states gracefully. This component is designed
+ * to present complex data in an understandable and visually appealing format.
+ *
+ * ```typescript
+ * import { Chart } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * Data visualization is critical for understanding trends, patterns, and
+ * performance metrics in educational and analytical applications. A standardized
+ * `Chart` component ensures that all data presentations adhere to the platform's
+ * design guidelines, providing a consistent and professional look. By abstracting
+ * the complexities of a charting library like Recharts, it simplifies the
+ * development of data-rich interfaces, allowing developers to focus on data
+ * preparation rather than chart rendering. Its responsiveness ensures that
+ * charts are legible and interactive across all device sizes.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Chart` component is rendered, **THEN** it should display
+ * a data visualization based on the `type` prop (`line`, `bar`, or `pie`).
+ * - **GIVEN** `data` is provided, **THEN** the chart should accurately represent
+ * the data using the specified `dataKey` and `nameKey`.
+ * - **GIVEN** `title` and `description` are provided, **THEN** they should be
+ * displayed above the chart for context.
+ * - **GIVEN** `colors` are provided, **THEN** the chart elements (lines, bars,
+ * pie slices) should use these colors. If not, default theme colors should be applied.
+ * - **GIVEN** an empty `data` array is provided, **THEN** an appropriate "No data
+ * available" empty state message should be displayed.
+ * - **WHEN** the chart's container is resized, **THEN** the chart should
+ * responsively adjust its dimensions while maintaining its `aspectRatio`.
+ * - **GIVEN** the chart, **THEN** it should include interactive tooltips and a legend
+ * for better data interpretation.
+ *
+ * ## Example & Props
  */
 export const Chart: React.FC<ChartProps> = ({
   type,

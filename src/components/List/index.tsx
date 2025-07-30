@@ -120,6 +120,36 @@ const TrailingContent = styled.div`
  * An individual item component for use within a `List` in the AscendUCore Design System.
  * It supports leading and trailing content, interactive states, and integrates with the theme.
  * Leading/trailing content can be Font Awesome icon names (strings), SVG URLs, inline SVGs, or any ReactNode.
+ *
+ * ```typescript
+ * import { ListItem } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * The `ListItem` component is a fundamental building block for displaying structured
+ * content in a vertical arrangement. It provides a standardized visual presentation
+ * for individual entries, ensuring consistency across various lists in the application.
+ * By supporting optional leading and trailing elements, it allows for rich and informative
+ * list items, enhancing user comprehension and interaction. Its integration with the
+ * theme and support for interactive/disabled states makes it a versatile and accessible
+ * component for a wide range of UI needs.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** a `ListItem` is rendered, **THEN** it should display its `children` content.
+ * - **GIVEN** `leading` content is provided, **THEN** it should be displayed on the
+ * left side of the list item.
+ * - **GIVEN** `trailing` content is provided, **THEN** it should be displayed on the
+ * right side of the list item.
+ * - **GIVEN** `interactive` is true, **THEN** the list item should display a hover
+ * effect and a pointer cursor.
+ * - **WHEN** an `interactive` `ListItem` is clicked (and not disabled), **THEN** its
+ * `onClick` callback should be triggered.
+ * - **GIVEN** `disabled` is true, **THEN** the list item should be visually disabled
+ * and not interactive.
+ * - **GIVEN** multiple `ListItem` components are in a `List`, **THEN** they should
+ * have a visual separator between them, except for the last item.
+ *
+ * ## Example & Props
  */
 export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(({ // Wrap with forwardRef
   children,
@@ -191,6 +221,31 @@ const StyledList = styled.ul`
  * A container component for displaying a collection of `ListItem` components
  * in the AscendUCore Design System. It provides a consistent visual structure
  * for lists of content.
+ *
+ * ```typescript
+ * import { List, ListItem } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * The `List` component serves as a versatile container for presenting groups of
+ * related information or actions in a clear, vertical arrangement. It ensures
+ * visual consistency for all list-based UI elements across the application.
+ * By providing a predefined structure and styling, it simplifies the creation
+ * of navigation menus, itemized content displays, and interactive selections,
+ * enhancing both development efficiency and user experience. Its integration
+ * with `ListItem` components allows for rich and interactive list designs.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `List` component is rendered, **THEN** it should display its
+ * `ListItem` children in a vertical stack.
+ * - **GIVEN** the list, **THEN** it should apply consistent padding, background,
+ * and border-radius as defined by the theme.
+ * - **GIVEN** `ListItem` components are used as children, **THEN** they should
+ * inherit the appropriate styles from the `List` container.
+ * - **GIVEN** the list content is long, **THEN** it should be vertically scrollable
+ * if its height is constrained by a parent.
+ *
+ * ## Example & Props
  */
 export const List: React.FC<ListProps> = ({
   children,

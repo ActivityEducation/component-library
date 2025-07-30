@@ -190,6 +190,45 @@ interface WYSIWYGEditorProps extends React.HTMLAttributes<HTMLDivElement> {
   css?: SerializedStyles;
 }
 
+/**
+ * The **WYSIWYGEditor** component provides a basic What-You-See-Is-What-You-Get (WYSIWYG)
+ * rich text editing experience. It allows users to format text, apply headings, create lists,
+ * and insert links using a familiar toolbar interface. The editor leverages the browser's
+ * native `contentEditable` attribute and `document.execCommand` for basic formatting operations.
+ *
+ * ```typescript
+ * import { WYSIWYGEditor } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * A WYSIWYG editor is a fundamental component for any application requiring rich text input,
+ * such as content creation, messaging, or note-taking. It empowers users to express
+ * themselves clearly and effectively by providing formatting options without requiring
+ * knowledge of HTML or Markdown. By building upon existing UI Kit components (Button, Toolbar, Input, Select),
+ * this editor ensures a consistent look and feel with the rest of the application,
+ * reduces bundle size by reusing existing primitives, and simplifies maintenance.
+ * It offers a user-friendly way to create visually appealing and structured content.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the editor is empty, **THEN** the `placeholder` text should be visible.
+ * - **GIVEN** `initialContent` is provided, **THEN** the editor should load with that HTML content.
+ * - **WHEN** text is selected and a formatting button (e.g., Bold, Italic, Underline) is clicked,
+ * **THEN** the selected text should be formatted accordingly.
+ * - **WHEN** the cursor is within formatted text, **THEN** the corresponding toolbar button
+ * should show an active state.
+ * - **WHEN** a block format (e.g., Heading 1, Paragraph) is selected from the dropdown,
+ * **THEN** the current block of text should change its format.
+ * - **WHEN** the "Insert Link" button is clicked, **THEN** a URL input field should appear,
+ * allowing the user to insert a hyperlink.
+ * - **WHEN** a link is active on the selected text, **THEN** a "Remove Link" button should
+ * appear in the toolbar.
+ * - **WHEN** a list type (bullet or numbered) is selected, **THEN** the text should
+ * transform into the chosen list format.
+ * - **WHEN** the editor loses focus and its content is empty, **THEN** it should revert
+ * to a state where the placeholder is visible.
+ *
+ * ## Example & Props
+ */
 export const WYSIWYGEditor: React.FC<WYSIWYGEditorProps> = ({ placeholder = 'Start typing...', initialContent = '', ...props }) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const [activeStyles, setActiveStyles] = useState<ActiveStyles>({

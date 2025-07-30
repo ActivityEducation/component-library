@@ -95,9 +95,37 @@ const SpinnerCircleProgress = styled.circle`
 `;
 
 /**
- * A circular Spinner component for the AscendUCore Design System.
- * It provides a visual indication of loading or processing in an indeterminate manner.
- * Supports different sizes.
+ * The **Spinner** component provides a visual indication of loading or processing
+ * in an indeterminate circular animation. It is used to inform users that an
+ * operation is in progress, preventing confusion and improving perceived performance.
+ * The component supports different sizes to fit various UI contexts, from small
+ * inline indicators to larger, more prominent loading states.
+ *
+ * ```typescript
+ * import { Spinner } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * In modern web applications, providing immediate feedback to user actions is crucial
+ * for a good user experience. The `Spinner` component addresses this by visually
+ * communicating that the system is busy, preventing users from attempting further
+ * actions or assuming the application is unresponsive. Its simple, elegant animation
+ * is designed to be unobtrusive yet clear, maintaining the overall aesthetic of the
+ * AscendUCore Design System. Supporting various sizes makes it versatile for different
+ * loading scenarios (e.g., a small spinner on a loading button, a larger one for
+ * page-level data fetching).
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Spinner` component is rendered, **THEN** it should display a
+ * continuous circular animation.
+ * - **GIVEN** the `size` prop is set to 'sm', 'md', or 'lg', **THEN** the spinner
+ * should render at the corresponding small, medium, or large dimensions.
+ * - **GIVEN** the spinner is used within a `Button` component, **THEN** it should
+ * integrate seamlessly, indicating a loading state for the button.
+ * - **GIVEN** the component is rendered, **THEN** it should use the theme's defined
+ * primary and neutral colors for its animation.
+ *
+ * ## Example & Props
  */
 export const Spinner: React.FC<SpinnerProps> = ({
   size = 'md', // Default size

@@ -17,7 +17,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "start": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "test": "vitest --project=storybook"
   },
   "dependencies": {
     "@emotion/babel-plugin": "^11.13.5",
@@ -25,8 +27,13 @@
     "@emotion/styled": "^11.14.1",
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@storybook/addon-essentials": "^9.0.0-alpha.12",
+    "@storybook/addon-interactions": "^9.0.0-alpha.10",
+    "@storybook/manager-api": "^9.0.0-alpha.1",
     "@storybook/react": "^9.0.18",
     "@storybook/react-webpack5": "^9.0.18",
+    "@storybook/test": "^9.0.0-alpha.2",
+    "@storybook/theming": "^9.0.0-alpha.1",
     "assert": "^2.1.0",
     "recharts": "^3.1.0",
     "rollup-plugin-typescript2": "^0.36.0"

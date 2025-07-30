@@ -103,10 +103,42 @@ const FlyoverCardContainer = styled.div<{
 `;
 
 /**
- * A Flyover component that wraps text and, upon hover (desktop) or tap (mobile),
+ * A **Flyover** component that wraps text and, upon hover (desktop) or tap (mobile),
  * displays a `Card` containing additional content. Ideal for glossary terms,
  * definitions, or contextual information. The popover position is configurable
- * and includes automatic collision detection and flipping.
+ * and includes automatic collision detection and flipping to ensure it remains
+ * visible within the viewport.
+ *
+ * ```typescript
+ * import { Flyover } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * The `Flyover` component enhances the user experience by providing on-demand
+ * contextual information without navigating away from the current view. It's
+ * particularly useful for educational content (e.g., definitions of complex terms),
+ * tooltips, or brief supplementary details. Its intelligent positioning logic
+ * (auto-flipping) ensures that the popover is always visible, even near viewport
+ * edges, improving usability. The support for both hover (desktop) and tap (mobile)
+ * interactions makes it universally accessible.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Flyover` component is rendered, **THEN** it should display its
+ * `children` content as a clickable trigger.
+ * - **WHEN** the trigger is hovered over (desktop) or tapped (mobile), **THEN**
+ * a `Card` containing the `content` prop should appear as a popover.
+ * - **WHEN** the mouse leaves the trigger or the popover, or a click occurs outside
+ * (for mobile/tap), **THEN** the popover should disappear.
+ * - **GIVEN** `position` is set to 'top', 'bottom', 'left', or 'right', **THEN**
+ * the popover should attempt to position itself accordingly relative to the trigger.
+ * - **GIVEN** the preferred position would cause the popover to go off-screen,
+ * **THEN** it should automatically flip to an available side to remain visible.
+ * - **GIVEN** `position` is a fixed value (e.g., 'fix-top-left'), **THEN** the
+ * popover should be positioned absolutely relative to the viewport.
+ * - **WHEN** the window is resized or scrolled (and the popover is visible),
+ * **THEN** the popover should re-calculate and adjust its position.
+ *
+ * ## Example & Props
  */
 export const Flyover: React.FC<FlyoverProps> = ({
   children,

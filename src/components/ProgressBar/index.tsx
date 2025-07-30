@@ -44,9 +44,39 @@ const ProgressBarFill = styled.div<{ progressWidth: number }>`
 `;
 
 /**
- * A linear ProgressBar component for the AscendUCore Design System.
+ * A linear **ProgressBar** component for the AscendUCore Design System.
  * It visually indicates the progress of an operation or a value within a defined range.
- * It is accessible via ARIA attributes.
+ * This component is designed to be accessible via ARIA attributes, providing a clear
+ * and intuitive representation of completion status.
+ *
+ * ```typescript
+ * import { ProgressBar } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * Progress bars are essential UI elements for providing feedback to users about the
+ * status of ongoing processes, such as file uploads, data loading, or form completion.
+ * A standardized `ProgressBar` ensures a consistent visual language for progress
+ * indication across the application. It helps manage user expectations by showing
+ * that an action is underway and approximately how much longer it might take,
+ * reducing frustration and improving the overall user experience. Its accessibility
+ * features ensure that all users, including those relying on assistive technologies,
+ * can understand the progress status.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `ProgressBar` component is rendered, **THEN** it should display
+ * a track and a fill segment indicating the current progress.
+ * - **GIVEN** `value` and `max` props are provided, **THEN** the fill segment's
+ * width should accurately represent the ratio of `value` to `max`.
+ * - **WHEN** the `value` prop changes, **THEN** the fill segment should
+ * transition smoothly to its new width.
+ * - **GIVEN** the component, **THEN** it should include appropriate ARIA attributes
+ * (`role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`) for accessibility.
+ * - **GIVEN** `value` is 0, **THEN** the fill segment should not be visible.
+ * - **GIVEN** `value` is equal to `max`, **THEN** the fill segment should span
+ * the entire width of the track.
+ *
+ * ## Example & Props
  */
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   value = 0,

@@ -121,10 +121,46 @@ const StyledIconContainer = styled.span<Pick<IconProps, 'size' | 'color'>>`
 `;
 
 /**
- * A reusable Icon component for the AscendUCore Design System.
- * It supports Font Awesome icon classes, SVG URLs, and inline SVG content.
- * Sizing and coloring are managed consistently through props and theme.
- * Ensure Font Awesome CSS is loaded globally for Font Awesome icons to render.
+ * A reusable **Icon** component for the AscendUCore Design System.
+ * It provides a flexible way to display icons, supporting Font Awesome icon classes,
+ * SVG URLs, and inline SVG content. Sizing and coloring are managed consistently
+ * through props and theme, making it a versatile utility for visual elements.
+ *
+ * It's important to note that for Font Awesome icons to render correctly,
+ * their CSS library must be loaded globally in your project.
+ *
+ * ```typescript
+ * import { Icon } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * The `Icon` component is fundamental for enhancing user interfaces with visual cues,
+ * improving readability, and guiding user interaction. By providing a unified component
+ * for various icon sources (Font Awesome, SVG URLs, inline SVG), it ensures consistency
+ * in size, color, and alignment across the entire application. This abstraction
+ * simplifies icon management for developers, allowing them to easily swap icon types
+ * or adjust their appearance without modifying underlying HTML/SVG structures.
+ * It contributes significantly to a cohesive and intuitive visual language.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Icon` component is rendered, **THEN** it should display an icon
+ * based on the `name`, `src`, or `children` prop.
+ * - **GIVEN** `name` (Font Awesome class) is provided, **THEN** it should render
+ * the corresponding Font Awesome icon.
+ * - **GIVEN** `src` (SVG URL) is provided, **THEN** it should render an `<img>` tag
+ * with the SVG as its source.
+ * - **GIVEN** `children` (inline SVG) is provided, **THEN** it should render the
+ * inline SVG content.
+ * - **GIVEN** `size` is set to 'xs', 'sm', 'md', 'lg', 'xl', or 'xxl', **THEN** the
+ * icon should render at the corresponding predefined dimensions.
+ * - **GIVEN** `color` is provided, **THEN** the icon's color should apply to Font Awesome
+ * icons and inline SVGs (via `currentColor`).
+ * - **WHEN** no `name`, `src`, or `children` prop is provided, **THEN** a console
+ * warning should be issued, and no icon should be displayed.
+ * - **GIVEN** the icon is purely decorative (no `name`, `src`, or `children`), **THEN**
+ * it should have `aria-hidden="true"` for accessibility.
+ *
+ * ## Example & Props
  */
 export const Icon: React.FC<IconProps> = ({
   name,

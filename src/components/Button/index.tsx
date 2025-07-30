@@ -175,6 +175,47 @@ const StyledButton = styled.button<Omit<ButtonProps, 'children' | 'css'>>`
   }
 `;
 
+/**
+ * The **Button** component is a fundamental UI element for triggering actions or
+ * navigating within an application. It supports various visual styles (variants),
+ * sizes, and states (active, disabled), and can display both text and icons.
+ * The component is designed to be highly customizable while adhering to the
+ * AscendUCore Design System's aesthetic and accessibility guidelines.
+ *
+ * ```typescript
+ * import { Button } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * Buttons are critical for user interaction, providing clear calls to action.
+ * A standardized `Button` component ensures consistency in appearance and behavior
+ * across the entire application, which is vital for a predictable and intuitive
+ * user experience. By encapsulating styling, hover effects, and disabled states,
+ * it simplifies development, reduces boilerplate code, and promotes reusability.
+ * The various `variant` and `size` options offer flexibility to adapt to different
+ * contexts, from primary calls to action to subtle icon-only controls.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Button` component is rendered, **THEN** it should display its
+ * `children` content within a clickable area.
+ * - **GIVEN** `variant` is set to 'primary', 'secondary', 'tertiary', 'ghost',
+ * 'destructive', or 'icon', **THEN** the button should apply the corresponding
+ * visual style (background, text color, borders).
+ * - **GIVEN** `size` is set to 'sm', 'md', or 'lg', **THEN** the button should
+ * apply the corresponding padding and font size.
+ * - **WHEN** the button is hovered over, **THEN** it should display a distinct
+ * hover effect (e.g., change in background color, shadow).
+ * - **GIVEN** `disabled` is true, **THEN** the button should be visually disabled
+ * and not clickable.
+ * - **GIVEN** `active` is true, **THEN** the button should display a distinct
+ * active state (e.g., a different background or inner shadow).
+ * - **WHEN** the button is clicked (and not disabled), **THEN** the `onClick`
+ * callback should be triggered.
+ * - **GIVEN** `variant` is 'icon' and `children` is a string (Font Awesome class),
+ * **THEN** it should render the icon correctly within a circular button.
+ *
+ * ## Example & Props
+ */
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
@@ -189,7 +230,7 @@ export const Button: React.FC<ButtonProps> = ({
     : children;
 
   return (
-    <StyledButton variant={variant} size={size} active={active} {...props}>
+    <StyledButton role="button" variant={variant} size={size} active={active} {...props}>
       {renderedChildren}
     </StyledButton>
   );

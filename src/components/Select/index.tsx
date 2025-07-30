@@ -96,6 +96,30 @@ const StyledOption = styled.li<Pick<OptionProps, 'isSelected' | 'isHighlighted'>
 /**
  * An individual selectable item within a `Select` component's dropdown in the AscendUCore Design System.
  * It displays content and handles selection/highlighting states.
+ *
+ * ```typescript
+ * import { Option } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * The `Option` component is a fundamental building block for dropdown menus, providing
+ * a standardized visual and interactive representation for selectable choices. By being
+ * a dedicated component, it ensures consistency in styling, hover effects, and active
+ * states across all `Select` components in the application. It also encapsulates the
+ * logic for communicating its selection to the parent `Select` component.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** an `Option` is rendered, **THEN** it should display its `children` content.
+ * - **GIVEN** `isSelected` is true, **THEN** the option should display a distinct
+ * selected state (e.g., different background/text color, checkmark).
+ * - **GIVEN** `isHighlighted` is true, **THEN** the option should display a distinct
+ * highlighted state (e.g., different background/text color for keyboard navigation).
+ * - **WHEN** the `Option` is clicked, **THEN** the `onOptionSelect` callback should
+ * be triggered with the `Option`'s `value`.
+ * - **GIVEN** `disabled` is true, **THEN** the option should be visually disabled
+ * and not clickable.
+ *
+ * ## Example & Props
  */
 export const Option: React.FC<OptionProps> = ({
   children,
@@ -275,6 +299,49 @@ const SelectDropdown = styled.ul`
   -ms-overflow-style: none; /* IE and Edge */
 `;
 
+/**
+ * The **Select** component provides a customizable dropdown menu for selecting a single
+ * option from a list. It acts as a controlled or uncontrolled component, managing its
+ * internal state or responding to external `value` changes. It works in conjunction
+ * with the `Option` component to display individual choices.
+ *
+ * This component ensures an accessible and visually consistent selection experience
+ * across the application, handling keyboard navigation, dropdown toggling, and
+ * value changes.
+ *
+ * ```typescript
+ * import { Select, Option } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * A standardized `Select` component is crucial for forms and interactive interfaces
+ * where users need to choose from a predefined set of options. It improves usability
+ * by providing a compact and organized way to present choices, preventing clutter
+ * on the screen. By abstracting the complex logic of dropdown behavior, accessibility
+ * (ARIA attributes, keyboard navigation), and state management, it simplifies development
+ * and ensures a consistent user experience. Its integration with the `Option` component
+ * allows for flexible content within each selectable item.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Select` is rendered, **THEN** it should display a trigger button
+ * with the currently selected option's label or a placeholder.
+ * - **GIVEN** `defaultValue` is provided, **THEN** the `Select` should initially
+ * display the option matching that value (uncontrolled behavior).
+ * - **GIVEN** `value` and `onValueChange` are provided, **THEN** the `Select` should
+ * behave as a controlled component, with the displayed value determined by the `value` prop.
+ * - **WHEN** the trigger is clicked, **THEN** the dropdown list of `Option` components
+ * should toggle visibility.
+ * - **WHEN** an `Option` within the dropdown is clicked, **THEN** the `Select`'s value
+ * should update, the dropdown should close, and the `onValueChange` callback should be triggered.
+ * - **GIVEN** `disabled` is true, **THEN** the `Select` trigger should be visually
+ * disabled and not interactive.
+ * - **WHEN** the dropdown is open, **THEN** keyboard navigation (ArrowUp, ArrowDown, Enter, Escape)
+ * should allow users to highlight and select options, and close the dropdown.
+ * - **GIVEN** many `Option` children, **THEN** the dropdown should be vertically scrollable.
+ * - **WHEN** the `Select` loses focus, **THEN** the dropdown should close.
+ *
+ * ## Example & Props
+ */
 export const Select: React.FC<SelectProps> = ({
   value,
   defaultValue,

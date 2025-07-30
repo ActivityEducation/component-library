@@ -88,10 +88,38 @@ const StyledTable = styled.table<Pick<TableProps, 'striped' | 'bordered'>>`
 `;
 
 /**
- * A component for displaying tabular data in the AscendUCore Design System.
- * It provides consistent styling for tables, including optional striped rows and cell borders.
- * It's recommended to wrap the Table in a container with `overflow-x: auto` for responsiveness
- * on smaller screens if the content is wide.
+ * The **Table** component provides a structured and visually consistent way to display
+ * tabular data within the AscendUCore Design System. It offers clear presentation of
+ * rows and columns, with options for visual enhancements like striped rows and cell borders.
+ * This component is built to ensure readability and maintain a cohesive design language
+ * across all data-driven interfaces.
+ *
+ * ```typescript
+ * import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * Tables are fundamental for organizing and presenting complex datasets in a digestible
+ * format. A dedicated `Table` component ensures that all tabular data adheres to the
+ * platform's design guidelines, providing a uniform user experience. It abstracts away
+ * repetitive styling, allowing developers to focus on data logic rather than presentation.
+ * The inclusion of `striped` and `bordered` variants offers flexibility to adapt the
+ * table's visual density to different contexts, improving readability for various data types.
+ * Wrapping the table in a responsive container also ensures usability across devices.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Table` component is rendered, **THEN** its content should be
+ * displayed in a standard tabular format with clear rows and columns.
+ * - **GIVEN** the `striped` prop is true, **THEN** alternating rows should have
+ * a distinct background color for improved readability.
+ * - **GIVEN** the `bordered` prop is true, **THEN** all cells (`<th>` and `<td>`)
+ * should have visible borders.
+ * - **GIVEN** a long table content, **THEN** the table should be horizontally scrollable
+ * within its container to prevent overflow on smaller screens.
+ * - **GIVEN** the table has a header, **THEN** header cells should be clearly
+ * distinguishable (e.g., with a different background and bold text).
+ *
+ * ## Example & Props
  */
 export const Table: React.FC<TableProps> = ({
   children,

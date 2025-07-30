@@ -136,9 +136,48 @@ const FlipperBack = styled(FlipperFace)`
 `;
 
 /**
- * A component that provides a 3D flip animation for its content,
- * representing a front and back side. Ideal for flashcards or interactive elements.
- * Can be controlled or uncontrolled.
+ * The **Flipper** component provides a dynamic 3D flip animation effect, allowing
+ * content to be displayed on both a "front" and "back" side. This component is
+ * ideal for interactive elements like flashcards, showcasing hidden details,
+ * or creating engaging transitions between related pieces of information.
+ * It can operate as either a controlled or uncontrolled component, and offers
+ * customization for flip direction and animation duration.
+ *
+ * ```typescript
+ * import { Flipper } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * The `Flipper` component adds a layer of interactivity and visual interest to
+ * the user interface, making content more engaging and memorable. It's particularly
+ * useful in educational contexts (e.g., digital flashcards) where presenting
+ * information in a reveal-on-demand manner enhances active recall. By encapsulating
+ * the complex CSS 3D transformations and state management, it simplifies the
+ * creation of such effects for developers, ensuring consistent performance and
+ * appearance across the application. Its configurable flip direction and click
+ * behavior provide flexibility for various design patterns.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Flipper` component is rendered, **THEN** it should display
+ * the `front` content by default.
+ * - **WHEN** the `Flipper` is clicked (and `flipOnClick` is true), **THEN** it
+ * should animate with a 3D flip effect to reveal the `back` content.
+ * - **WHEN** the `Flipper` is clicked again (and `flipOnClick` is true), **THEN**
+ * it should flip back to reveal the `front` content.
+ * - **GIVEN** `defaultFlipped` is true, **THEN** the `Flipper` should initially
+ * display the `back` content (uncontrolled behavior).
+ * - **GIVEN** `isFlipped` prop is provided, **THEN** the `Flipper` should display
+ * its `front` or `back` content based on the prop's value (controlled behavior).
+ * - **WHEN** the `Flipper`'s flipped state changes, **THEN** the `onFlipChange`
+ * callback should be triggered with the new state.
+ * - **GIVEN** `duration` is set, **THEN** the flip animation should take the
+ * specified amount of time.
+ * - **GIVEN** `flipDirection` is 'horizontal' or 'vertical', **THEN** the flip
+ * animation should occur around the Y-axis or X-axis, respectively.
+ * - **GIVEN** `flipOnClick` is false, **THEN** clicking the component should
+ * *not* trigger the flip animation.
+ *
+ * ## Example & Props
  */
 export const Flipper: React.FC<FlipperProps> = ({
   front,
@@ -148,7 +187,7 @@ export const Flipper: React.FC<FlipperProps> = ({
   onFlipChange,
   duration = 0.6,
   flipDirection = 'horizontal',
-  flipOnClick = false, // Default to true for backward compatibility
+  flipOnClick = true, // Default to true for backward compatibility
   onClick, // Capture original onClick
   ...props
 }) => {
@@ -169,7 +208,6 @@ export const Flipper: React.FC<FlipperProps> = ({
 
   // Handle click on the card to conditionally toggle flip
   const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    debugger;
     // Only flip if flipOnClick is true and the click is on the container itself
     // (not on children that might have their own click handlers)
     if (flipOnClick) toggleFlip();

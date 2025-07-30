@@ -130,9 +130,41 @@ const SliderThumb = styled.div<{ thumbPosition: number; isDragging: boolean }>`
 `;
 
 /**
- * A Slider component for the AscendUCore Design System.
- * It allows users to select a single value from a continuous or discrete range.
- * Supports controlled/uncontrolled usage, min/max/step values, and disabled state.
+ * The **Slider** component allows users to select a single value from a predefined
+ * range by dragging a thumb along a track. It supports both continuous and discrete
+ * value selection, configurable minimum, maximum, and step increments. This component
+ * provides a visually intuitive way for users to adjust settings, filter data, or
+ * control progress within an application.
+ *
+ * ```typescript
+ * import { Slider } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * A `Slider` component is essential for interactive user interfaces where a range of
+ * values needs to be selected without direct numerical input. It enhances usability
+ * by offering a visual representation of the selection range and the current value,
+ * making adjustments quick and intuitive. By encapsulating the complex logic of
+ * dragging, value calculation, and accessibility (via a hidden native input),
+ * it simplifies development and ensures consistent behavior and styling across the
+ * AscendUCore Design System. Its responsiveness and touch-friendly design make it
+ * suitable for all devices.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** the `Slider` is rendered, **THEN** it should display a track, a fill
+ * indicating the current value, and a draggable thumb.
+ * - **GIVEN** `min`, `max`, and `step` props are provided, **THEN** the slider's
+ * range and increment should correspond to these values.
+ * - **WHEN** the user drags the thumb or clicks on the track, **THEN** the slider's
+ * value should update, and the `onValueChange` callback should be triggered.
+ * - **GIVEN** the `disabled` prop is true, **THEN** the slider should be visually
+ * disabled and not interactive.
+ * - **GIVEN** the slider is focused via keyboard, **THEN** it should display a
+ * clear focus indicator.
+ * - **WHEN** the slider's value changes, **THEN** the fill and thumb position
+ * should visually update accordingly.
+ *
+ * ## Example & Props
  */
 export const Slider: React.FC<SliderProps> = ({
   value: controlledValue,

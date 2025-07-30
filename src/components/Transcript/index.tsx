@@ -97,9 +97,39 @@ const EmptyStateContainer = styled.div`
 
 
 /**
- * The Transcript component displays a video transcript, highlighting the sentence
- * that is currently being spoken based on the provided `currentTime`.
- * It automatically scrolls the active sentence into view.
+ * The **Transcript** component is designed to display the textual content of a video or audio
+ * file, providing a synchronized and accessible way for users to follow along with spoken
+ * content. It automatically highlights the currently active segment (e.g., a sentence)
+ * based on the provided `currentTime` and ensures that the active segment is always
+ * scrolled into view, enhancing readability and user experience.
+ *
+ * ```typescript
+ * import { Transcript } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * In an educational or content consumption platform, a transcript component is crucial for
+ * accessibility, comprehension, and navigation. It caters to diverse learning styles,
+ * allowing users to read along, review specific sections, or quickly locate information
+ * within a video. For users with hearing impairments, it provides essential access to
+ * the audio content. For all users, it aids in retention and understanding by presenting
+ * information in both auditory and visual formats. The auto-scrolling and highlighting
+ * features ensure a seamless and intuitive experience, directly linking the text to the
+ * playback, which is vital for effective learning and content review.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** a transcript is provided, **WHEN** the `currentTime` updates, **THEN** the
+ * corresponding transcript segment should be highlighted.
+ * - **GIVEN** the active transcript segment changes, **THEN** the component should
+ * automatically scroll to bring the active segment into view.
+ * - **GIVEN** an empty `transcript` array is provided, **THEN** an appropriate "No transcript
+ * available" empty state message should be displayed.
+ * - **GIVEN** a long transcript, **THEN** the component should be scrollable, allowing
+ * users to view all segments.
+ * - **GIVEN** the component is rendered, **THEN** the header should display "Transcript"
+ * along with a closed-captioning icon for clear identification.
+ *
+ * ## Example & Props
  */
 export const Transcript: React.FC<TranscriptProps> = ({
   transcript,

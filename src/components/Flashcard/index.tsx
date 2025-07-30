@@ -199,7 +199,46 @@ const DynamicTextField = ({ text, scale }: { text: string, scale: number }) => {
     );
 };
 
-
+/**
+ * The **Flashcard** component is designed to render interactive flashcards based on
+ * a provided data model (`FlashcardModel`) and specific card data (`FlashcardData`).
+ * It leverages the `Flipper` component to enable a 3D flip animation, allowing users
+ * to switch between the front and back of the card. The component dynamically scales
+ * its content, including text fields, to fit the card's dimensions, ensuring readability
+ * across different sizes.
+ *
+ * This component is ideal for educational applications, language learning, or any
+ * scenario requiring a digital flashcard experience.
+ *
+ * ```typescript
+ * import { Flashcard } from "@activityeducation/component-library";
+ * ```
+ *
+ * ## Justification
+ * Flashcards are a highly effective tool for active recall and spaced repetition,
+ * crucial for memorization and learning. A dedicated `Flashcard` component provides
+ * a standardized, interactive, and visually appealing implementation of this learning
+ * aid. Its ability to dynamically render content based on a flexible model allows for
+ * diverse types of flashcards (e.g., text-based, image-based). The integrated flip
+ * animation enhances engagement, while dynamic font sizing ensures content always
+ * fits and remains legible, improving the overall learning experience.
+ *
+ * ## Acceptance Criteria
+ * - **GIVEN** a `Flashcard` component is rendered with `model` and `data` props,
+ * **THEN** it should display the content defined by the `Front` template of the model.
+ * - **WHEN** the `Flashcard` is clicked, **THEN** it should flip to reveal the
+ * content defined by the `Back` template of the model.
+ * - **WHEN** the component's container is resized, **THEN** the content (including
+ * text and images) within the card should dynamically scale to fit the new dimensions
+ * while maintaining its aspect ratio.
+ * - **GIVEN** a text field's content is too long for its allocated space, **THEN**
+ * its font size should dynamically decrease to fit, down to a minimum readable size.
+ * If still overflowing, it should show ellipsis and a title attribute for full text.
+ * - **GIVEN** the `Flashcard` component, **THEN** it should correctly render different
+ * field types (text, image, icon) as defined in the `FlashcardModel` and `FlashcardData`.
+ *
+ * ## Example & Props
+ */
 export const Flashcard: React.FC<FlashcardProps> = ({ model, data }) => {
   const [scale, setScale] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
